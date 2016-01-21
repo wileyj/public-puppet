@@ -1,0 +1,84 @@
+[submodule "code/modules/public/roundcube"]
+	path = code/modules/public/roundcube
+	url = https://github.com/tohuwabohu/puppet-roundcube
+[submodule "code/modules/public/postfix"]
+	path = code/modules/public/postfix
+	url = https://github.com/camptocamp/puppet-postfix.git
+[submodule "code/modules/public/kolab"]
+	path = code/modules/public/kolab
+	url = https://github.com/kolab-groupware/puppet-module-kolab.git
+[submodule "code/modules/public/collectd"]
+	path = code/modules/public/collectd
+	url = https://github.com/pdxcat/puppet-module-collectd.git
+[submodule "code/modules/public/common"]
+	path = code/modules/public/common
+	url = https://github.com/ghoneycutt/puppet-module-common.git
+[submodule "code/modules/public/python"]
+	path = code/modules/public/python
+	url = https://github.com/stankevich/puppet-python.git
+[submodule "code/modules/public/sensu-puppet"]
+	path = code/modules/public/sensu-puppet
+	url = https://github.com/sensu/sensu-puppet.git
+[submodule "code/modules/public/aws"]
+	path = code/modules/public/aws
+	url = https://github.com/puppetlabs/puppetlabs-aws.git
+[submodule "code/modules/public/stdlib"]
+	path = code/modules/public/stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
+[submodule "code/modules/public/concat"]
+	path = code/modules/public/concat
+	url = https://github.com/puppetlabs/puppetlabs-concat.git
+[submodule "code/modules/public/firewall"]
+	path = code/modules/public/firewall
+	url = https://github.com/puppetlabs/puppetlabs-firewall.git
+[submodule "code/modules/public/ntp"]
+	path = code/modules/public/ntp
+	url = https://github.com/puppetlabs/puppetlabs-ntp.git
+[submodule "code/modules/public/sysctl"]
+	path = code/modules/public/sysctl
+	url = https://github.com/duritong/puppet-sysctl.git
+[submodule "code/modules/public/sudo"]
+	path = code/modules/public/sudo
+	url = https://github.com/saz/puppet-sudo.git
+[submodule "code/modules/public/yumrepos"]
+	path = code/modules/public/yumrepos
+	url = https://github.com/george-b/yumrepos.git
+[submodule "code/modules/public/dnsclient"]
+	path = code/modules/public/dnsclient
+	url = https://github.com/ghoneycutt/puppet-module-dnsclient.git
+[submodule "code/modules/public/limits"]
+	path = code/modules/public/limits
+	url = https://github.com/puppetlabs/puppetlabs-limits.git
+[submodule "code/modules/public/lvm"]
+	path = code/modules/public/lvm
+	url = https://github.com/puppetlabs/puppetlabs-lvm.git
+[submodule "code/modules/public/module_data"]
+	path = code/modules/public/module_data
+	url = https://github.com/ripienaar/puppet-module-data.git
+[submodule "code/modules/public/wget"]
+	path = code/modules/public/wget
+	url = https://github.com/maestrodev/puppet-wget.git
+[submodule "code/modules/public/supervisor"]
+	path = code/modules/public/supervisor
+	url = https://github.com/miguno/puppet-supervisor.git
+[submodule "code/modules/public/apache"]
+	path = code/modules/public/apache
+	url = https://github.com/puppetlabs/puppetlabs-apache.git
+[submodule "code/modules/public/statsd"]
+	path = code/modules/public/statsd
+	url = https://github.com/justindowning/puppet-statsd.git
+[submodule "code/modules/public/mounts"]
+	path = code/modules/public/mounts
+	url = https://github.com/snemetz/puppet-mounts.git
+[submodule "code/modules/public/staging"]
+	path = code/modules/public/staging
+	url = https://github.com/nanliu/puppet-staging.git
+[submodule "code/modules/public/datacat"]
+	path = code/modules/public/datacat
+	url = https://github.com/richardc/puppet-datacat.git
+[submodule "code/modules/public/network"]
+	path = code/modules/public/network
+	url = https://github.com/example42/puppet-network.git
+[submodule "code/modules/public/stmod"]
+	path = code/modules/public/stmod
+	url = https://github.com/stdmod/stdmod.git

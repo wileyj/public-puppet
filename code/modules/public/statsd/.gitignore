@@ -1,8 +1,0 @@
-.idea
-.project
-.librarian/*
-.tmp/*
-.vagrant/*
-modules/**
-pkg/*
-spec/fixtures/*

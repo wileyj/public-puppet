@@ -1,4 +1,4 @@
-#!/usr/bin/python -tt
+#!/usr/bin/env python -tt
 #
 # DESCRIPTION:
 # Collect everything that can be collected out of jstat (shells out 5 times)
