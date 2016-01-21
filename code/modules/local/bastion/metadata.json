@@ -2,7 +2,7 @@
   "name": "bastion",
   "version": "0.1.0",
   "author": "wileyj",
-  "summary": null,
+  "summary": "as written, this module probably won't work as it uses some of the same manifests as base, which is called on all hosts. needs updating",
   "license": "Apache 2.0",
   "source": "",
   "project_page": null,

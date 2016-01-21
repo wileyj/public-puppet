@@ -28,7 +28,7 @@ bastion::jail::group:
             'user1'
         ]
 
-bastion::sysctl:
+sysctl::bastion::values:
     net.ipv4.conf.all.accept_redirects : { value: 1 }
 
 bastion::packages:
@@ -107,6 +107,32 @@ bastion::files:
         mode    : '0755'
         source  : puppet:///modules/bastion/opt/scripts/chroot_setup.pl
 
+    /etc/ssh/sshd_config:
+        owner   : 'root'
+        group   : 'root'
+        ensure  : present
+        replace : true
+        mode    : '0644'
+        source  : puppet:///modules/bastion/etc/ssh/sshd_config
+
+    # /usr/bin/syncpasswd:
+    #     owner   : 'root'
+    #     group   : 'root'
+    #     ensure  : present
+    #     replace : true
+    #     mode    : '0755'
+    #     source  : puppet:///modules/bastion/syncpasswd/syncpasswd
+    #     require : Package["perl-LDAP"]
+
+    # /etc/mapped:
+    #     owner   : 'root'
+    #     group   : 'root'
+    #     ensure  : present
+    #     replace : true
+    #     mode    : '0644'
+    #     source  : puppet:///modules/bastion/syncpasswd/mapped
+    #     require : File["/usr/bin/syncpasswd"]
+
     /export:
         ensure : directory
 
@@ -116,10 +142,15 @@ bastion::files:
     /export/jail/etc:
         ensure : directory
 
-bastion::cron::job:
+bastion::cron:
     chroot.cron:
         minute : '00'
         hour   : '*/2'
         user   : 'root'
         command: '/bin/rm -rf /etc/sysconfig/chroot_setup 2>&1'
+
+    # syncpassword.cron:
+    #     minute : '*/5'
+    #     user   : 'root'
+    #     command: '/usr/bin/syncpasswd -r -d > /var/tmp/sync.out 2>&1'
 

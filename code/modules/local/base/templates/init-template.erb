@@ -10,7 +10,7 @@ SCRIPT="/opt/denyhosts/bin/denyhosts_ctl"
 RUNAS="root"
 NAME="denyhosts"
 PIDFILE="/var/lock/subsys/$NAME"
- 
+
 start() {
   if [ -f "$PIDFILE" ];then
     echo "${NAME} Service already running" >&2
@@ -21,7 +21,7 @@ start() {
   su -c "$CMD" $RUNAS
   echo "${NAME} Service started" >&2
 }
- 
+
 stop() {
   if [ ! -f "$PIDFILE" ]; then
     echo "${NAME} Service not running" >&2
@@ -32,7 +32,7 @@ stop() {
   su -c "$CMD" $RUNAS
   echo "${NAME} Service stopped" >&2
 }
- 
+
 status() {
  if [ ! -f "$PIDFILE" ]; then
     echo "${NAME} Service not running" >&2
@@ -41,7 +41,7 @@ status() {
   local CMD="$SCRIPT status"
   su -c "$CMD" $RUNAS
 }
- 
+
 case "$1" in
   start)
     start
