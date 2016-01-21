@@ -1,0 +1,8 @@
+{
+    "handlers": {
+        "sensu_decommission": {
+            "type": "pipe",
+            "command": "/etc/sensu/handlers/decommission.rb"
+        }
+    }
+}

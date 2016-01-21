@@ -1,0 +1,34 @@
+#!/bin/sh
+export PIP_DISABLE_PIP_VERSION_CHECK=1
+export GOPATH="/usr/lib/golang/"
+export FACTERLIB="/etc/puppetlabs/facter/facts.d"
+if [ -f "/usr/local/bin/pip" ];then
+    /usr/local/bin/pip install --upgrade boto
+elif [ -f "/usr/bin/pip-2.7" ]; then
+    /usr/bin/pip-2.7 install --upgrade boto
+else
+    /usr/bin/pip install --upgrade boto
+fi   
+HOST=`/bin/hostname`
+#ENV=`/usr/bin/facter -p tag_environment`
+ENV="production" # for now, this is it
+MANIFESTS="/etc/puppetlabs"
+PROGDIR="/opt/puppetlabs"
+SITE_PP="${MANIFESTS}/code/environments/${ENV}/manifests/site.pp"
+SCRIPT="/opt/scripts/git.sh"
+KEY="/root/.ssh/puppet"
+LOGFILE="/var/log/puppet/puppet.log"
+PROG="${PROGDIR}/bin/puppet"
+BINPATH="/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin"
+if [[ ${HOST} == *postgres* || ${HOST} == *graphite* ]]; then
+    BINPATH=${BINPATH}:/usr/pgsql-9.4/bin
+fi
+export PATH=${BINPATH}
+sed -i -e '/common\/cron/ s|^#*|#|' ${MANIFESTS}/code/hiera.yaml
+rm -rf /etc/cron.d/puppet.cron
+OP=""
+if [ "${1}" == "-d" ];then
+    OP="-dv --trace"
+fi
+chown -R puppet:puppet ${MANIFESTS} ${PROGDIR}
+${PROG} apply ${OP} ${SITE_PP} | /usr/bin/tee ${LOGFILE}

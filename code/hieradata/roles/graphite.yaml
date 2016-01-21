@@ -1,0 +1,290 @@
+---
+# graphite login:
+# admin:9t3?NZt^GNs8rm
+# python /opt/graphite/webapp/graphite/manage.py createsuperuser
+# ...
+
+# lvm::volume_groups:
+#     'dbvg':
+#         physical_volumes:
+#             - /dev/sdb
+#         logical_volumes:
+#             graphite:
+#                 size: 30G
+#                 mountpath: /opt/graphite
+#                 mountpath_require: true
+#             postgres:
+#                 size: 30G
+#                 mountpath: var/lib/pgsql/9.4/data
+#                 mountpath_require: true
+
+
+env::path: "/sbin:/bin:/usr/sbin:/usr/bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/pgsql-9.4/bin"
+graphite::modules:
+    - whisper
+    - carbon-client
+    - carbonstat
+    - carbon
+    - graphite-web
+    - django
+    - twisted
+    - django-tagging
+    - uWSGI
+    - uwsgi_metrics
+    - django-uwsgi
+    - django-uwsgi-admin2
+    - elasticsearch-curator
+    - elasticsearch-scripts
+    - elasticstats
+    - elasticstat
+    - pyelasticsearch
+    - elasticsearch
+    - cairocffi
+    - psycopg2
+    - psycopg2-managed-connection
+    - db-psycopg2
+    - pgsql_wrapper
+    - psycopg2cffi
+    - psycopg2cffi-compat
+
+graphite::packages:
+    - m4
+    - libffi-devel
+    - cairo-devel 
+    - pycairo-devel 
+    - python27-pycairo 
+    - python27-pycairo-devel 
+    - cairo
+
+graphite::services:
+    - graphite
+
+graphite::files:
+    /opt/graphite:
+        replace: false
+        owner  : 'graphite'
+        group  : 'graphite'
+        recurse: true
+        ignore : "*.pid"
+        ensure : directory
+
+    /root/graphite.sql:
+        ensure : present
+        owner  : 'root' 
+        group  : 'root'
+        mode   : '0600'
+        replace: true 
+        source : 'puppet:///modules/graphite/root/graphite.sql'
+
+    /etc/init.d/graphite:
+        source : 'puppet:///modules/base/etc/init.d/graphite'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+        ensure : present
+        #before : Service["graphite"]
+        #notify : Service["graphite"]
+
+    /etc/init.d/uwsgi:
+        source : 'puppet:///modules/base/etc/init.d/uwsgi'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+        ensure : present
+        #before : Service["graphite"]
+        #notify : Service["graphite"]
+
+    /etc/init.d/carbon-cache:
+        source : 'puppet:///modules/base/etc/init.d/carbon-cache'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+        ensure : present
+        #before : Service["graphite"]
+        #notify : Service["graphite"]
+
+    /etc/init.d/carbon-aggregator:
+        source : 'puppet:///modules/base/etc/init.d/carbon-aggregator'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+        ensure : present
+        #before : Service["graphite"]
+        #notify : Service["graphite"]
+
+    /etc/init.d/carbon-relay:
+        source : 'puppet:///modules/base/etc/init.d/carbon-relay'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+        ensure : present
+        #before : Service["graphite"]
+        #notify : Service["graphite"]
+
+#
+#  carbon settings
+#
+#cache
+graphite::cache_storage_dir: "/opt/graphite/storage"
+graphite::cache_local_data_dir: "/opt/graphite/storage/whisper"
+graphite::cache_whitelists_dir: "/opt/graphite/storage/lists"
+graphite::cache_conf_dir: "/opt/graphite/conf"
+graphite::cache_log_dir: "/var/log/graphite"
+graphite::cache_pid_dir: "/var/run/"
+graphite::cache_user: "root"
+graphite::cache_max_cache_size: "inf"
+graphite::cache_max_updates_per_second: 500
+graphite::cache_max_creates_per_minute: 50
+graphite::cache_line_receiver_interface: "0.0.0.0"
+graphite::cache_line_receiver_port: 2003
+graphite::cache_enable_udp_listener: "False"
+graphite::cache_udp_receiver_interface: "0.0.0.0"
+graphite::cache_udp_receiver_port: 2003
+graphite::cache_pickle_receiver_interface: "0.0.0.0"
+graphite::cache_pickle_receiver_port: 2004
+graphite::cache_use_insecure_unpickler: "False"
+graphite::cache_cache_query_interface: "0.0.0.0"
+graphite::cache_cache_query_port: 7002
+graphite::cache_use_flow_control: "True"
+graphite::cache_log_updates: "False"
+graphite::cache_whisper_autoflush: "False"
+graphite::cache_amqp_verbose: "False"
+graphite::cache_amqp_vhost: "/"
+graphite::cache_amqp_exchange: "graphite"
+graphite::cache_amqp_metric_name_in_body: "False"
+#relay
+graphite::relay_line_receiver_interface: "0.0.0.0"
+graphite::relay_line_receiver_port: 2013
+graphite::relay_pickle_receiver_interface: "0.0.0.0"
+graphite::relay_pickle_receiver_port: 2014
+graphite::relay_relay_method: "rules"
+graphite::relay_replication_factor: 1
+graphite::relay_destinations: "127.0.0.1:2004"
+#aggregator
+graphite::aggregator_line_receiver_interface: "0.0.0.0"
+graphite::aggregator_line_receiver_port: 2023
+graphite::aggregator_pickle_receiver_interface: "0.0.0.0"
+graphite::aggregator_pickle_receiver_port: 2024
+graphite::aggregator_destinations: "127.0.0.1:2004"
+graphite::aggregator_replication_factor:  1
+graphite::aggregator_max_queue_size: 10000
+graphite::aggregator_use_flow_control: "True"
+graphite::aggregator_max_datapoints_per_message: 500
+graphite::aggregator_max_aggregation_intervals: 5
+#cache:a
+# graphite::a_line_receiver_port: 2103
+# graphite::a_pickle_receiver_port: 2104
+# graphite::a_cache_query_port: 7102
+#cache:b
+# graphite::b_line_receiver_port: 2103
+# graphite::b_pickle_receiver_port: 2104
+# graphite::b_cache_query_port: 7102
+
+#
+# storage-schemas settings
+#
+graphite::carbon_pattern: '^carbon\.'
+graphite::carbon_retentions: "60:90d"
+
+#
+# dashboard_settings
+#
+graphite::ui_default_graph_width: 400
+graphite::ui_default_graph_height: 250
+graphite::ui_automatic_variants: "true"
+graphite::ui_refresh_interval: 60
+graphite::ui_autocomplete_delay: 375
+graphite::ui_merge_hover_delay: 750
+graphite::ui_theme: "default"
+graphite::keyboard_toggle_toolbar: "ctrl-z"
+graphite::keyboard_toggle_metrics_panel: "ctrl-space"
+graphite::keyboard_erase_all_graphs: "alt-x"
+graphite::keyboard_save_dashboard: "alt-s"
+graphite::keyboard_completer_add_metrics: "alt-enter"
+graphite::keyboard_completer_del_metrics: "alt-backspace"
+graphite::keyboard_give_completer_focus: "shift-space"
+
+#
+# local settings
+#
+graphite::local_time_zone: 'America/New_York'
+graphite::local_documentation_url: "http://graphite.readthedocs.org/"
+graphite::local_log_rendering_performance: "True"
+graphite::local_log_cache_performance: "True"
+graphite::local_log_metric_access: "True"
+graphite::local_debug: "True"
+graphite::local_flushrrdcached: "unix:/var/run/rrdcached.sock"
+graphite::local_memcache_hosts: 
+    - '"10.10.10.10:11211",'
+    - '"10.10.10.11:11211",'
+    - '"10.10.10.12:11211"'
+graphite::local_default_cache_duration: 60 
+graphite::local_secret_key: "secret_key"
+graphite::local_graphite_root: "/opt/graphite"
+graphite::local_conf_dir: "/opt/graphite/conf"
+graphite::local_storage_dir: "/opt/graphite/storage"
+graphite::local_content_dir: "/opt/graphite/webapp/content"
+graphite::local_dashboard_conf: "/opt/graphite/conf/dashboard.conf"
+graphite::local_graphtemplates_conf: "/opt/graphite/conf/graphTemplates.conf"
+graphite::local_whisper_dir: "/opt/graphite/storage/whisper"
+graphite::local_rrd_dir: "/opt/graphite/storage/rrd"
+graphite::local_data_dirs: 
+    - '"/opt/graphite/storage/whisper",'
+    - '"/opt/graphite/storage/rrd"'
+graphite::local_log_dir: "/opt/graphite/storage/log/webapp"
+graphite::local_index_file: "/opt/graphite/storage/index"
+graphite::local_email_backend: "django.core.mail.backends.smtp.EmailBackend"
+graphite::local_email_host: "localhost"
+graphite::local_email_port: 25
+graphite::local_email_host_user: ""
+graphite::local_email_host_password: ""
+graphite::local_email_use_tls: "False"
+graphite::local_use_remote_user_authentication: "True"
+graphite::local_login_url: "/account/login"
+graphite::local_database_engine: "django.db.backends.postgresql_psycopg2"
+graphite::local_database_name: "graphite"
+graphite::local_database_user: "graphite"
+graphite::local_database_password: "password"
+graphite::local_database_host: "127.0.0.1"
+graphite::local_database_port: 5432
+graphite::local_cluster_servers: 
+    - '"10.0.2.2:80",'
+    - '"10.0.2.3:80"'
+graphite::local_remote_store_fopth_timeout: 6
+graphite::local_remote_store_find_timeout: 2.5
+graphite::local_remote_store_retry_delay: 60
+graphite::local_remote_find_cache_duration: 300
+graphite::local_remote_rendering: "True"
+graphite::local_rendering_hosts: ""
+graphite::local_remote_render_connect_timeout: 1.0
+graphite::local_carbonlink_hosts: 
+    - '"127.0.0.1:7002:a",'
+    - '"127.0.0.1:7102:b",'
+    - '"127.0.0.1:7202:c"'
+graphite::local_carbonlink_timeout: 1.0
+
+#
+# uwsgi
+#
+graphite::uwsgi_binary_path: "/usr/local/bin/uwsgi"
+graphite::uwsgi_processes: 2
+graphite::uwsgi_socket: "127.0.0.1:3031"
+graphite::uwsgi_wsgi_file: "/opt/graphite/webapp/graphite/graphite.wsgi"
+graphite::uwsgi_gid: "nginx"
+graphite::uwsgi_uid: "nginx"
+graphite::uwsgi_module: "wsgi:application"
+graphite::uwsgi_daemonize: "/var/log/uwsgi/daemon.log"
+graphite::uwsgi_chown_socket: "nginx"
+graphite::uwsgi_die_on_term: "true"
+graphite::uwsgi_emperor: "true"
+graphite::uwsgi_enable_threads: "true"
+graphite::uwsgi_limit_as: 512
+graphite::uwsgi_master: "true"
+graphite::uwsgi_vacuum: "true"
+graphite::uwsgi_vhost: "true"
+graphite::uwsgi_workers: 4

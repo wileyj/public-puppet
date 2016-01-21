@@ -1,0 +1,51 @@
+{
+    "api.version": "v1",
+    "collector":{
+        "hostName": "<%= scope.lookupvar('hostname_full') %>"
+    },
+    "sources": [{
+        "name": "Messages",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "OS/Linux/System",
+        "pathExpression": "/var/log/messages"
+    },{
+        "name": "Collector",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "OS/Linux/System",
+        "pathExpression": "/opt/SumoCollector/logs/collector.log"
+    },{
+        "name": "Puppet",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "OS/Linux/System",
+        "pathExpression": "/var/log/puppet/puppet.log"
+    },{
+        "name": "Secure",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "OS/Linux/Security",
+        "pathExpression": "/var/log/secure"
+    }]
+}

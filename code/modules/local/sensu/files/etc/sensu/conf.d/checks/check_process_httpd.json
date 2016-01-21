@@ -1,0 +1,37 @@
+{
+    "checks": {
+        "process_httpd": {
+            "command": "/etc/sensu/plugins/check-process.pl -c status -p httpd",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 60,
+            "occurrences": 5,            
+            "handlers": [ 
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "apache",
+                "webservice"
+            ],
+            "remediation": {
+                "remediation_httpd": {
+                    "occurrences": [
+                        "1-5"
+                    ],
+                    "severities": [
+                        2
+                    ]
+                }
+            }
+        },
+        "remediation_httpd": {
+            "command": "sudo /etc/init.d/httpd restart",
+            "subscribers": [],
+            "handlers": [
+                "mailer"
+            ],
+            "publish": false
+        }
+    }
+}

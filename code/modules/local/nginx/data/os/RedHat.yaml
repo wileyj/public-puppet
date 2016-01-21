@@ -1,0 +1,132 @@
+---
+nginx::packages:
+    - nginx
+    - perl-Text-Template
+    - lua
+
+nginx::services:
+    - nginx
+
+nginx::sudo::conf:
+    nginx:
+        sudo_config_dir:  /etc/sudoers.d
+        content  : "# sudoers::nginx - This file is maintained by puppet\n#line 2"
+
+nginx::cron::job:
+    nginx-roll_logs.cron:
+        minute : '59'
+        hour   : '23'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /opt/scripts/nginx/roll-logs.sh > /var/tmp/nginx_roll-logs.out 2>&1'
+
+    nginx-restart.cron:
+         minute : '05'
+         hour   : '00'
+         user   : 'root'
+         command: '/usr/bin/sleeper 30 && /etc/init.d/nginx restart > /var/tmp/nginx_restart.out 2>&1'
+
+nginx::files:
+    /u/docroot:
+        replace: false
+        owner  : 'nginx'
+        group  : 'nginx'
+        recurse: true
+        ignore : "*.pid"
+        ensure : directory
+
+    /u/log/nginx:
+        replace: false
+        owner  : 'nginx'
+        group  : 'nginx'
+        recurse: true
+        ignore : "*.pid"
+        ensure : directory
+
+    /opt/scripts/nginx:
+        source : 'puppet:///modules/nginx/opt/scripts/nginx'
+        recurse: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0775'
+
+    /etc/init.d/nginx:
+        source : 'puppet:///modules/base/etc/init.d/nginx'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0775'
+        replace : true
+
+        #before : Service["nginx"]
+        #notify : Service["nginx"]
+
+    /etc/nginx/:
+        replace: false
+        owner  : 'root'
+        group  : 'root'
+        recurse: false
+        ensure : directory
+        mode   : '0755'
+
+    /etc/nginx/conf.d:
+        replace: false
+        owner  : 'root'
+        group  : 'root'
+        recurse: false
+        ensure : directory
+        mode   : '0755'
+
+    /etc/nginx/sites-available:
+        replace: false
+        recurse: false
+        ensure : directory
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+
+    /etc/nginx/sites-enabled:
+        replace: false
+        owner  : 'root'
+        group  : 'root'
+        recurse: false
+        ensure : directory
+        mode   : '0755'
+
+
+    /etc/nginx/nginx.conf:
+        source : 'puppet:///modules/nginx/etc/nginx/nginx.conf'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+        ensure : present
+        #before : Service["nginx"]
+        #notify : Service["nginx"]
+
+    /etc/nginx/conf.d/logging.conf:
+        source : 'puppet:///modules/nginx/etc/nginx/conf.d/logging.conf'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+        ensure : present
+        #before : Service["nginx"]
+        #notify : Service["nginx"]
+
+    /etc/nginx/conf.d/virtual.conf:
+        source : 'puppet:///modules/nginx/etc/nginx/conf.d/virtual.conf'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+        ensure : present
+        #before : Service["nginx"]
+        #notify : Service["nginx"]
+
+    /etc/nginx/conf.d/status.conf:
+        source : 'puppet:///modules/nginx/etc/nginx/conf.d/status.conf'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+        ensure : present
+        #before : Service["nginx"]
+        #notify : Service["nginx"]
+
+nginx::sysctl:
+    vm.swappiness : { value: 0 }

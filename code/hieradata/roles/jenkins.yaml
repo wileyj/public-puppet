@@ -1,0 +1,42 @@
+---
+jenkins::packages:
+    - jenkins
+    - mock
+    - rpm-build
+
+jenkins::services:
+    - jenkins
+
+jenkins::sudo::conf:
+    'jenkins':
+        priority : 5
+        content  : "# File Maintained by puppet. Do Not Edit Manually\n#jenkins ALL = NOPASSWD: JENKINS, /opt/scripts/reload-jenkins.sh\nDefaults !requiretty"
+
+    'jenkins_alias':
+        priority : 5
+        content : "# File Maintained by puppet. Do Not Edit Manually\nCmnd_Alias JENKINS = /etc/init.d/jenkins"
+
+jenkins::cron::job:
+    'jenkins-restart.cron':
+        minute : '15'
+        hour   : '06'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /etc/init.d/jenkins restart > /var/tmp/jenkins_restart.out 2>&1'
+
+jenkins::files:
+    '/opt/scripts/jenkins':
+        ensure  : directory
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+# lvm::volume_groups:
+#     'jenkins':
+#         physical_volumes:
+#             - /dev/sdb
+#         logical_volumes:
+#             workspace:
+#                 # size: 25G
+#                 size: 30G
+#                 mountpath: /opt/jenkins/home/workspace
+#                 mountpath_require: true

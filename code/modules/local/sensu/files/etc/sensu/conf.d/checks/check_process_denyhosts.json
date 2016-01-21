@@ -1,0 +1,36 @@
+{
+    "checks": {
+        "process_denyhosts": {
+            "command": "/etc/sensu/plugins/check-process.pl -c status -p denyhosts",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 60,
+            "occurrences": 5,            
+            "handlers": [ 
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "default"
+            ],
+            "remediation": {
+                "remediation_denyhosts": {
+                    "occurrences": [
+                        "1-5"
+                    ],
+                    "severities": [
+                        2
+                    ]
+                }
+            }
+        },
+        "remediation_denyhosts": {
+            "command": "sudo /etc/init.d/denyhosts restart",
+            "subscribers": [],
+            "handlers": [
+                "mailer"
+            ],
+            "publish": false
+        }
+    }
+}

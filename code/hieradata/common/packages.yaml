@@ -1,0 +1,47 @@
+---
+common::packages:
+    - yum-plugin-priorities
+    - deltarpm
+    - rubygem-rgen
+    - augeas-libs
+    - ruby-augeas
+    - rubygem-json_pure
+    - ruby-libs
+    - rubygems
+    - rubygem-bigdecimal
+    - rubygem-psych
+    - perl-libwww-perl
+    - denyhosts
+    - strace
+    - nmap
+    - sysstat
+    - coreutils
+    - lsof
+    - telnet
+    - at
+    - nc
+    - bc
+    - tcsh
+    - traceroute
+    - tcpdump
+    - binutils
+    - bzip2
+    - ruby-shadow
+    - git
+    - rsync
+    - ruby
+    - bash
+    - python27-pip
+    - python27-tools
+    - python27-setuptools
+    # - python27-numpy
+    - curl
+    - bind-utils
+    - gcc
+    - perl-Proc-ProcessTable
+
+ssh::packages:
+    - openssh-clients
+    - openssh-server
+    - openssh
+

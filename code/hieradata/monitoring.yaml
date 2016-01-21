@@ -1,0 +1,352 @@
+---
+#########################
+##    Global values    ##
+#########################
+sensu::host:                     "shared-sensu-001.p.use1.local.com"
+sensu::services::rabbitmq::host: "shared-sensu-001.p.use1.local.com"
+sensu::services::redis::host:    "shared-sensu-001.p.use1.local.com"
+sensu::services::graphite::host: "platform-graphite-001.p.use1.local.com"
+sensu::api::host:                "shared-sensu-001.p.use1.local.com"
+
+sensu::purge::config: true
+sensu::log::level : info
+sensu::common::files:
+    /etc/default/sensu:
+        source : 'puppet:///modules/base/etc/default/sensu'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+
+    /etc/sensu:
+        ensure : directory
+        owner  : 'sensu'
+        group  : 'sensu'
+
+    /etc/sensu/ssl:
+        ensure : directory
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0600'
+
+    /etc/init.d/sensu-service:
+        source : 'puppet:///modules/base/etc/init.d/sensu-service'
+        ensure : present
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+
+#########################
+##    uchiwa values    ##
+#########################
+uchiwa::app::use_ssl: false
+uchiwa::app::path: ""
+uchiwa::app::timeout: 5000
+uchiwa::app::port: 3000
+uchiwa::app::stats: 10
+uchiwa::app::refresh: 10000
+uchiwa::app::admin_user: "admin"
+uchiwa::app::admin_password: "password"
+uchiwa::app::users:
+    "user1":
+        password: "password"
+        readonly: false
+
+    "admin1":
+        password: "password"
+        readonly: false
+
+uchiwa::app::datacenters:
+    "us-east-1":
+        node: "shared-sensu-001.p.use1.local.com"
+
+    "us-west-1":
+        node: "shared-sensu-001.p.usw1.local.com"
+
+
+#########################
+##   services values   ##
+#########################
+sensu::services::rabbitmq::port: 5672
+sensu::services::rabbitmq::ssl::port: 5671
+sensu::services::rabbitmq::vhost: "/sensu"
+sensu::services::rabbitmq::user: "sensu"
+sensu::services::rabbitmq::password: "secret"
+sensu::services::rabbitmq::ssl::private_key: undef
+sensu::services::rabbitmq::ssl::cert_chain: undef
+# sensu::services::rabbitmq::ssl::private_key: "/etc/sensu/ssl/client_key.pem"
+# sensu::services::rabbitmq::ssl::cert_chain: "/etc/sensu/ssl/client_cert.pem"
+sensu::services::redis::port: 6379
+sensu::services::graphite::port: 2003
+
+#########################
+##    Client values    ##
+#########################
+sensu::client::subscriptions:
+    - default
+    - linux
+    - metrics
+sensu::client::warning: 90
+sensu::client::critical: 300
+sensu::client::refresh: 900
+sensu::client::custom: undef
+sensu::client::files:
+    /etc/init.d/sensu-client:
+        source : 'puppet:///modules/base/etc/init.d/sensu-client'
+        ensure : present
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+
+    /etc/logrotate.d/sensu:
+        source : 'puppet:///modules/base/etc/logrotate.d/sensu'
+        ensure : present
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+
+    /etc/sensu/conf.d:
+        ensure : directory
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/conf.d/checks:
+        source : 'puppet:///modules/sensu/etc/sensu/conf.d/checks'
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/conf.d/communication:
+        ensure : directory
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/conf.d/services/relay.json:
+        ensure : absent
+
+    /etc/sensu/conf.d/services/config_relay.json:
+        ensure : absent
+
+    /etc/sensu/conf.d/services:
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/conf.d/handlers:
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/metrics:
+        source : 'puppet:///modules/sensu/etc/sensu/metrics'
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/plugins:
+        source : 'puppet:///modules/sensu/etc/sensu/plugins'
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+
+sensu::client::packages:
+    - sensu-client
+    - rubygem-multi_json
+    - rubygem-sensu-plugins-ansible
+    - rubygem-sensu-plugins-apache
+    - rubygem-sensu-plugins-aws
+    - rubygem-sensu-plugins-beanstalk
+    - rubygem-sensu-plugins-conntrack
+    - rubygem-sensu-plugins-cpu-checks
+    - rubygem-sensu-plugins-disk-checks
+    - rubygem-sensu-plugins-dns
+    - rubygem-sensu-plugins-filesystem-checks
+    - rubygem-sensu-plugins-golang
+    - rubygem-sensu-plugins-graphite
+    - rubygem-sensu-plugins-haproxy
+    - rubygem-sensu-plugins-http
+    - rubygem-sensu-plugins-java
+    - rubygem-sensu-plugins-jenkins
+    - rubygem-sensu-plugins-load-checks
+    - rubygem-sensu-plugins-memory-checks
+    - rubygem-sensu-plugins-network-checks
+    - rubygem-sensu-plugins-nginx
+    - rubygem-sensu-plugins-ntp
+    - rubygem-sensu-plugins-postgres
+    - rubygem-sensu-plugins-process-checks
+    - rubygem-sensu-plugins-rabbitmq
+    - rubygem-sensu-plugins-redis
+    - rubygem-sensu-plugins-slack
+    - rubygem-sensu-plugins-ssl
+    - rubygem-sensu-plugins-uchiwa
+    - rubygem-sensu-plugins-uptime-checks
+    - rubygem-sensu-plugins-vmstats
+
+sensu::client::services:
+    - sensu-client
+
+sensu::client::sudo:
+    sensu_client:
+        priority : 10
+        sudo_config_dir:  /etc/sudoers.d/
+        content  : "# sudoers::sensu::client - This file is maintained by puppet\nsensu ALL=(ALL) NOPASSWD:ALL"
+
+sensu::client::cron:
+    sensu_client.cron:
+        minute : '02'
+        hour   : '06'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /etc/init.d/sensu-client restart > /var/tmp/sensu-client-restart.out 2>&1'
+
+#########################
+##    Server values    ##
+#########################
+sensu::api::port: 4567
+sensu::api::user: "user"
+sensu::api::password: "password"
+sensu::server::packages:
+    - sensu-api
+    - sensu-server
+
+sensu::server::services:
+    - sensu-server
+    - sensu-api
+
+sensu::server::mail_from: "root@sensu.local.com"
+sensu::server::mail_to: "alerts@local.com"
+sensu::server::mail_dev: "alerts@local.com"
+sensu::server::mail_alerts: "alerts@local.com"
+
+sensu::server::files:
+    /etc/init.d/sensu-server:
+        source : 'puppet:///modules/base/etc/init.d/sensu-server'
+        ensure : present
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+
+    /etc/init.d/sensu-api:
+        source : 'puppet:///modules/base/etc/init.d/sensu-api'
+        ensure : present
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+
+    /etc/logrotate.d/sensu-server:
+        source : 'puppet:///modules/base/etc/logrotate.d/sensu-server'
+        ensure : present
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+
+    /etc/sensu/handlers:
+        source : 'puppet:///modules/sensu/etc/sensu/handlers'
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/extensions:
+        ensure : directory
+        recurse: false
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/extensions/handlers:
+        ensure : directory
+        recurse: false
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/extensions/mutators:
+        source : 'puppet:///modules/sensu/etc/sensu/extensions/mutators'
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+
+    /etc/sensu/mutators:
+        source : 'puppet:///modules/sensu/etc/sensu/mutators'
+        ensure : directory
+        recurse: true
+        owner  : 'sensu'
+        group  : 'sensu'
+        mode   : '0755'
+    
+
+sensu::server::sudo:
+    sensu_server:
+        priority : 10
+        sudo_config_dir:  /etc/sudoers.d
+        content  : "# sudoers::sensu::server - This file is maintained by puppet\n#line 2"
+
+sensu::server::cron:
+    sensu_server.cron:
+        minute : '01'
+        hour   : '06'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /etc/init.d/sensu-server restart > /var/tmp/sensu-server-restart.out 2>&1'
+
+    sensu_api.cron:
+        minute : '00'
+        hour   : '06'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /etc/init.d/sensu-api restart > /var/tmp/sensu-api-restart.out 2>&1'
+
+#########################
+##   Rabbitmq values   ##
+#########################
+rabbitmq::package_provider: yum
+rabbitmq::files:
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6':
+        source  : puppet:///modules/base/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+yumrepos::repos:
+    'erlang':
+        descr          : erlang-solutions
+        baseurl        : 'http://packages.erlang-solutions.com/rpm/centos/6/$basearch'
+        failovermethod : priority
+        gpgkey         : http://packages.erlang-solutions.com/debian/erlang_solutions.asc
+        gpgcheck       : 0
+        enabled        : 1
+        priority       : 1
+
+    'centos-extras':
+        descr: centos-6-extras
+        mirrorlist: 'http://mirrorlist.centos.org/?release=6&arch=$basearch&repo=extras'
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+        gpgcheck: 0
+        enabled: 1
+
+    'centos-base':
+        descr: CentOS-6-Base
+        mirrorlist: 'http://mirrorlist.centos.org/?release=6&arch=$basearch&repo=os'
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+        gpgcheck: 0
+        enabled: 1

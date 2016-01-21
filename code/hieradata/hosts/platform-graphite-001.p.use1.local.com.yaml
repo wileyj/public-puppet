@@ -1,0 +1,40 @@
+---
+nginx::configs:
+    '/var/log/nginx/graphite.local.com':
+        ensure  : directory
+        replace : false
+        owner   : 'root'
+        group   : 'root'
+
+    '/var/log/nginx/grafana.local.com':
+        ensure  : directory
+        replace : false
+        owner   : 'root'
+        group   : 'root'
+
+    '/etc/nginx/sites-available/graphite.local.com.conf':
+        source : 'puppet:///modules/nginx/etc/nginx/sites-available/graphite.local.com'
+        replace: true
+        owner  : root
+        group  : root
+        mode   : '0644'
+        #before : Service['nginx']
+        #notify : Service["nginx"]
+
+    '/etc/nginx/sites-enabled/graphite.local.com.conf':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/graphite.local.com.conf'
+
+
+    '/etc/nginx/sites-available/grafana.local.com.conf':
+        source : 'puppet:///modules/nginx/etc/nginx/sites-available/grafana.local.com'
+        replace: true
+        owner  : root
+        group  : root
+        mode   : '0644'
+        #before : Service['nginx']
+        #notify : Service["nginx"]
+
+    '/etc/nginx/sites-enabled/grafana.local.com.conf':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/grafana.local.com.conf'

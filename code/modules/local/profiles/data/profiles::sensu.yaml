@@ -1,0 +1,4 @@
+---
+profiles::sensu::classes:
+    - "::sensu"
+

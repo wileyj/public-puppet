@@ -1,0 +1,11 @@
+---
+#network::interfaces_hash:
+#    'eth0':
+#       enable_dhcp : true
+#       bootproto: 'dhcp'
+#       enable: false
+#       type: 'Ethernet'
+#       userctl: 'yes'
+#       peerdns: 'yes'
+#       ipv6init: 'no'
+#       mtu: '1400'

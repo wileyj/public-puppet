@@ -1,0 +1,51 @@
+---
+
+analytics::groups:
+    analytics:
+        ensure: present
+        gid: 1100
+        members: [
+            'user1'
+        ]
+
+analytics::users:
+    user1:
+        ensure:  present
+        home:    /home/user1
+        shell:   /bin/bash
+        comment: "user1"
+        uid:     1101
+        gid:     1100
+
+analytics::keys:
+    /home/user1:
+        ensure : directory
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0755'
+
+    /home/user1/.ssh:
+        ensure: directory
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/user1/.ssh/authorized_keys:
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0600'
+        replace: true
+        content: "ssh-rsa key"
+
+    /home/user1/.subversion:
+        ensure : directory
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/user1/.subversion/servers:
+        replace: true
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"

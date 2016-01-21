@@ -1,0 +1,4 @@
+---
+sysctl::values:
+    vm.overcommit_memory: { value: 0,  permanent: yes }
+    vm.overcommit_ratio:  { value: 90, permanent: yes }

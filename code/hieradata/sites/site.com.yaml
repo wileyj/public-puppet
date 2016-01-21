@@ -1,0 +1,5 @@
+---
+nginx::version:        1.7.10
+php::version:          5.5.13
+nginx::instance::name: site.com-1
+

@@ -1,0 +1,8 @@
+/var/log/redis/redis.log {
+    missingok
+    daily
+    notifempty
+    copytruncate
+    rotate 7
+    compress
+}

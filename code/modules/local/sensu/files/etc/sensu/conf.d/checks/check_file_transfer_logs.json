@@ -1,0 +1,36 @@
+{
+    "checks": {
+        "file_transfer_logs": {
+            "command": "/etc/sensu/plugins/check-file-size.rb -f /var/lock/subsys/transfer-logs",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 80,
+            "occurrences": 4,                        
+            "handlers": [ 
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "app-prod"
+            ],
+            "remediation": {
+                "remediation_transfer_logs": {
+                    "occurrences": [
+                        "1-5"
+                    ],
+                    "severities": [
+                        2
+                    ]
+                }
+            }
+        },
+        "remediation_transfer_logs": {
+            "command": "sudo /etc/init.d/transfer-logs start",
+            "subscribers": [],
+            "handlers": [
+                "mailer"
+            ],
+            "publish": false
+        }
+    }
+}

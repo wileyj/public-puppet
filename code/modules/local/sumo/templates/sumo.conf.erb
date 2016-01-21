@@ -1,0 +1,36 @@
+# sumo.conf: Managed by puppet
+#
+name=<%= scope.lookupvar('::hostname_full') %>
+accessid=<%= scope.lookupvar('access_id') %>
+accesskey=<%= scope.lookupvar('access_key') %>
+syncSources=<%= scope.lookupvar('config_dir') %>/<%= scope.lookupvar('sync_sources')  %>/
+<% if scope.lookupvar('config_email') -%>
+email=<%= scope.lookupvar('config_email') %>
+<% end -%>
+<% if scope.lookupvar('config_password') -%>
+password=<%= scope.lookupvar('config_password') %>
+<% end -%>
+<% if scope.lookupvar('config_dir') && scope.lookupvar('sources_file') -%>
+sources=<%= scope.lookupvar('config_dir') %>/<%= scope.lookupvar('sources_file') %>
+<% end -%>
+<% if scope.lookupvar('config_override') -%>
+override=<%= scope.lookupvar('config_override') %>
+<% end -%>
+<% if scope.lookupvar('config_ephemeral') -%>
+ephemeral=<%= scope.lookupvar('config_ephemeral') %>
+<% end -%>
+<% if scope.lookupvar('config_clobber') -%>
+clobber=<%= scope.lookupvar('config_clobber') %>
+<% end -%>
+<% if scope.lookupvar('proxy_host') -%>
+proxyHost=<%= scope.lookupvar('proxy_host') %>
+<% end -%>
+<% if scope.lookupvar('proxy_port') -%>
+proxyPort=<%= scope.lookupvar('proxy_port') %>
+<% end -%>
+<% if scope.lookupvar('proxy_password') -%>
+proxyPassword=<%= scope.lookupvar('proxy_password')  %>
+<% end -%>
+<% if scope.lookupvar('proxy_ntlm_domain') -%>
+proxyNtlmDomain=<%= scope.lookupvar('proxy_ntlm_domain') %>
+<% end -%>

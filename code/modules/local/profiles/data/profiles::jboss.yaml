@@ -1,0 +1,25 @@
+---
+profiles::jboss::classes:
+    - "::java"
+    - "::jboss"
+
+profiles::jboss::sudo:
+    jboss:
+        sudo_config_dir:  /etc/sudoers.d
+        content  : "# sudoers::jboss - This file is maintained by puppet\n#line 2"
+
+profiles::jboss::cron:
+    jboss.cron:
+        minute : '00'
+        hour   : '06'
+        user   : 'root'
+        command: '#/usr/bin/sleeper 30 && /opt/scripts/jboss/roll-logs.sh > /var/tmp/jboss-restart.out 2>&1'
+
+profiles::jboss::files:
+    /u/log/jboss:
+        replace: false
+        owner  : jboss
+        group  : www
+        recurse: true
+        ignore : "*.pid"
+        ensure : directory

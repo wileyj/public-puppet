@@ -1,0 +1,16 @@
+{
+    "api.version": "v1",
+    "source": {
+        "name": "Graphite Listener Log",
+        "hostName": "<%= scope.lookupvar('::hostname') %>",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "Monitoring/<%= scope.lookupvar('::tag_environment') %>/graphite",
+        "pathExpression": "/var/log/graphite/listener.log"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "checks": {
+        "check_rabbitmq_amqp": {
+            "command": "/etc/sensu/plugins/rabbitmq-amqp-alive.rb -w 127.0.0.1 -u sensu -p secret -v %2Fsensu",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 60,
+            "occurrences": 5,
+            "handlers": [ 
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "sensu_server",
+                "rabbitmq"
+            ]
+        }
+    }
+}
+

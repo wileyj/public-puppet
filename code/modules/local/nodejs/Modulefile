@@ -1,0 +1,9 @@
+name         'NodeJS'
+summary      'NodeJS Module'
+description  'This is the NodeJS Module'
+version      '0.0.1'
+author       'wileyj'
+license      'Apache 2.0'
+source       'https://github.com/wileyj/public-puppet/code/modules/local/nodejs'
+project_page 'https://github.com/wileyj/public-puppet/code/modules/local/nodejs'
+

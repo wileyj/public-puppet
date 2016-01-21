@@ -1,0 +1,12 @@
+---
+vpn::usw2::subnet:       "10.3.0.0/16"
+vpn::usw2::eip1:         "1.1.1.1"
+vpn::usw2::eip2:         "1.1.1.2"
+
+vpn::files:
+    /etc/ipsec.d/:
+        replace: true
+        owner  : root
+        group  : root
+        mode   : 0644
+        source : 'puppet:///modules/vpn/etc/sysctl.conf'

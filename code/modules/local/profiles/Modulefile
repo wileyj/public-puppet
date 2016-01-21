@@ -1,0 +1,9 @@
+name         'Profiles'
+summary      'Profiles Module'
+description  'This is the Profiles Module'
+version      '0.0.1'
+author       'wileyj'
+license      'Apache 2.0'
+source       'https://github.com/wileyj/public-puppet/code/modules/local/profiles'
+project_page 'https://github.com/wileyj/public-puppet/code/modules/local/profiles'
+

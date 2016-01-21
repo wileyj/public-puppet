@@ -1,0 +1,29 @@
+---
+sumo::services:
+  - collector
+sumo::params::access_id: 'sumo_id'
+sumo::params::access_key: 'sumo_key'
+sumo::params::clobber: false
+sumo::params::config_dir: '/etc'
+sumo::params::config_file: 'sumo.conf'
+sumo::params::download_url: 'https://collectors.sumologic.com/rest/download/linux/64'
+sumo::params::ephemeral: true
+sumo::params::get_installer_cmd: "/usr/bin/curl -o ${install_script} ${download_url}"
+sumo::params::install_dir: '/opt/SumoCollector'
+sumo::params::install_script: 'sumo_install.sh'
+sumo::params::install_script_dir: '/tmp'
+sumo::params::override: false
+sumo::params::password: false
+sumo::params::service_ensure: running
+sumo::params::service_enable: true
+sumo::params::sync_sources: 'sumo.d'
+
+# sumo::params::collector_name: undef
+# sumo::params::config_template: undef
+# sumo::params::email: undef
+# sumo::params::proxy_host: undef
+# sumo::params::proxy_ntlm_domain: undef
+# sumo::params::proxy_password: undef
+# sumo::params::proxy_port: undef
+# sumo::params::sources_file: undef
+# sumo::params::sources_template: undef

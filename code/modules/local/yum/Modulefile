@@ -1,0 +1,8 @@
+name         'Yum'
+summary      'Yum Module'
+description  'This is the Yum Module'
+version      '0.0.1'
+author       'wileyj'
+license      'Apache 2.0'
+source       'https://github.com/wileyj/public-puppet/code/modules/local/yum'
+project_page 'https://github.com/wileyj/public-puppet/code/modules/local/yum'

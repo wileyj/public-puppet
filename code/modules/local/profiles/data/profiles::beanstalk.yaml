@@ -1,0 +1,4 @@
+---
+profiles::beanstalk::classes:
+    # - "::java"
+    - "::beanstalk"

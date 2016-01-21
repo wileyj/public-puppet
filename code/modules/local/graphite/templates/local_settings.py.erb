@@ -1,0 +1,94 @@
+#####################################
+# General Configuration #
+#####################################
+TIME_ZONE = '<%= scope.lookupvar('local_time_zone') %>'
+DOCUMENTATION_URL = "<%= scope.lookupvar('local_documentation_url') %> "
+LOG_RENDERING_PERFORMANCE = <%= scope.lookupvar('local_log_rendering_performance') %>
+LOG_CACHE_PERFORMANCE = <%= scope.lookupvar('local_log_cache_performance') %>
+LOG_METRIC_ACCESS = <%= scope.lookupvar('local_log_metric_access') %>
+#DEBUG = <%= scope.lookupvar('local_debug') %>
+#FLUSHRRDCACHED = '<%= scope.lookupvar('local_flushrrdcached') %> '
+#MEMCACHE_HOSTS = [<% scope.lookupvar('local_local_memcache_hosts').each do |host|%><%= host %><% end %>]
+#DEFAULT_CACHE_DURATION = <%= scope.lookupvar('local_default_cache_duration') %>
+SECRET_KEY = "<%= scope.lookupvar('local_secret_key') %>"
+
+#####################################
+# Filesystem Paths #
+#####################################
+GRAPHITE_ROOT = '<%= scope.lookupvar('local_graphite_root') %>'
+CONF_DIR = '<%= scope.lookupvar('local_conf_dir') %>'
+STORAGE_DIR = '<%= scope.lookupvar('local_storage_dir') %>'
+CONTENT_DIR = '<%= scope.lookupvar('local_content_dir') %>'
+
+## Webapp config files
+DASHBOARD_CONF = '<%= scope.lookupvar('local_dashboard_conf') %>'
+GRAPHTEMPLATES_CONF = '<%= scope.lookupvar('local_graphtemplates_conf') %>'
+
+## Data directories
+# NOTE: If any directory is unreadable in DATA_DIRS it will break metric browsing
+WHISPER_DIR = '<%= scope.lookupvar('local_whisper_dir') %>'
+RRD_DIR = '<%= scope.lookupvar('local_local_rrd_dir') %>'
+DATA_DIRS = [<% scope.lookupvar('local_local_data_dirs').each do |dir|%><%= dir %><% end %>] 
+LOG_DIR = '<%= scope.lookupvar('local_local_log_dir') %>'
+INDEX_FILE = '<%= scope.lookupvar('local_index_file') %>'  
+
+
+#####################################
+# Email Configuration #
+#####################################
+#EMAIL_BACKEND = '<%= scope.lookupvar('local_email_backend') %>'
+#EMAIL_HOST = '<%= scope.lookupvar('local_email_host') %>'
+#EMAIL_PORT = <%= scope.lookupvar('local_email_port') %>
+#EMAIL_HOST_USER = <%= scope.lookupvar('local_email_host_user') %>
+#EMAIL_HOST_PASSWORD = <%= scope.lookupvar('local_email_host_password') %>
+#EMAIL_USE_TLS = <%= scope.lookupvar('local_email_use_tls') %>
+# To drop emails on the floor, enable the Dummy backend:
+#EMAIL_BACKEND = '<%= scope.lookupvar('local_email_backend') %>
+
+#####################################
+# Authentication Configuration #
+#####################################
+## REMOTE_USER authentication. See: https://docs.djangoproject.com/en/dev/howto/auth-remote-user/
+USE_REMOTE_USER_AUTHENTICATION = <%= scope.lookupvar('local_use_remote_user_authentication') %>
+LOGIN_URL = '<%= scope.lookupvar('local_login_url') %>'
+
+##########################
+# Database Configuration #
+##########################
+# DO NOT FORGET TO RUN 'manage.py syncdb' AFTER SETTING UP A NEW DATABASE
+# The following built-in database engines are available:
+#  django.db.backends.postgresql          # Removed in Django 1.4
+#  django.db.backends.postgresql_psycopg2
+#  django.db.backends.mysql
+#  django.db.backends.sqlite3
+#  django.db.backends.oracle
+DATABASES = {
+    'default': {
+        'NAME': '<%= scope.lookupvar('local_database_name') %>',
+        'ENGINE': '<%= scope.lookupvar('local_database_engine') %>',
+        'USER': '<%= scope.lookupvar('local_database_user') %>',
+        'PASSWORD': '<%= scope.lookupvar('local_database_password') %>',
+#        'HOST': '<%= scope.lookupvar('local_database_host') %>',
+        'HOST': 'localhost',
+        'PORT': '<%= scope.lookupvar('local_database_port') %>'
+    }
+}
+
+#########################
+# Cluster Configuration #
+#########################
+#CLUSTER_SERVERS = [<% scope.lookupvar('local_cluster_servers').each do |server|%><%= server %><% end %>]
+#REMOTE_STORE_FoptH_TIMEOUT = <%= scope.lookupvar('local_remote_store_fopth_timeout') %>
+#REMOTE_STORE_FIND_TIMEOUT = <%= scope.lookupvar('local_remote_store_find_timeout') %>  
+#REMOTE_STORE_RETRY_DELAY = <%= scope.lookupvar('local_remote_store_retry_delay') %>
+#REMOTE_FIND_CACHE_DURATION = <%= scope.lookupvar('local_remote_find_cache_duration') %>
+#REMOTE_RENDERING = <%= scope.lookupvar('local_remote_rendering') %>
+#RENDERING_HOSTS = []
+#REMOTE_RENDER_CONNECT_TIMEOUT = <%= scope.lookupvar('local_remote_render_connect_timeout') %>
+#CARBONLINK_HOSTS = []
+#CARBONLINK_TIMEOUT = <%= scope.lookupvar('local_carbonlink_timeout') %>
+
+#####################################
+# Additional Django Settings #
+#####################################
+from graphite.app_settings import *

@@ -1,0 +1,126 @@
+##################### Grafana Configuration  #####################
+app_mode = <%= scope.lookupvar('::tag_environment') %>
+
+[paths]
+data = <%= scope.lookupvar('paths_data') %>
+logs = <%= scope.lookupvar('paths_logs') %>
+
+[server]
+protocol = <%= scope.lookupvar('server_protocol') %>
+http_addr =<%= scope.lookupvar('server_http_addr') %>
+http_port = <%= scope.lookupvar('server_http_port') %>
+domain = <%= scope.lookupvar('server_domain') %>
+enforce_domain = <%= scope.lookupvar('server_enforce_domain') %>
+root_url = <%= scope.lookupvar('server_root_url') %>
+router_logging = <%= scope.lookupvar('server_router_logging') %>
+static_root_path = <%= scope.lookupvar('server_static_root_path') %>
+enable_gzip = <%= scope.lookupvar('server_enable_gzip') %>
+cert_file = <%= scope.lookupvar('server_cert_file') %>
+cert_key = <%= scope.lookupvar('server_cert_key') %>
+
+[database]
+type = <%= scope.lookupvar('database_type') %>
+host = <%= scope.lookupvar('database_host') %>
+name = <%= scope.lookupvar('database_name') %>
+user = <%= scope.lookupvar('database_user') %>
+password = <%= scope.lookupvar('database_password') %>
+ssl_mode = <%= scope.lookupvar('database_ssl_mode') %>
+
+[session]
+provider = <%= scope.lookupvar('session_provider') %>
+provider_config = <%= scope.lookupvar('session_provider_config') %>
+cookie_name = <%= scope.lookupvar('session_cookie_name') %>
+cookie_secure = <%= scope.lookupvar('session_cookie_secure') %>
+session_life_time = <%= scope.lookupvar('session_life_time') %>
+
+[analytics]
+reporting_enabled = <%= scope.lookupvar('analytics_reporting_enabled') %>
+google_analytics_ua_id = <%= scope.lookupvar('analytics_google_analytics_ua_id') %>
+google_tag_manager_id = <%= scope.lookupvar('analytics_google_tag_manager_id') %>
+
+[security]
+admin_user = <%= scope.lookupvar('security_admin_user') %>
+admin_password = <%= scope.lookupvar('security_admin_password') %>
+secret_key = <%= scope.lookupvar('security_secret_key') %>
+login_remember_days = <%= scope.lookupvar('security_login_remember_days') %>
+cookie_username = <%= scope.lookupvar('security_cookie_username') %>
+cookie_remember_name = <%= scope.lookupvar('security_cookie_remember_name') %>
+disable_gravatar = <%= scope.lookupvar('security_disable_gravatar') %>
+
+[users]
+allow_sign_up = <%= scope.lookupvar('users_allow_sign_up') %>
+allow_org_create = <%= scope.lookupvar('users_allow_org_creat') %>
+auto_assign_org = true <%= scope.lookupvar('users_auto_assign_org') %>
+auto_assign_org_role = <%= scope.lookupvar('users_auto_assign_org_role') %>
+verify_email_enabled = <%= scope.lookupvar('users_verify_email_enabled') %>
+
+[auth.anonymous]
+enabled = <%= scope.lookupvar('anonymous_enabled') %>
+org_name = <%= scope.lookupvar('anonymous_org_name') %>
+org_role = <%= scope.lookupvar('anonymous_org_role') %>
+
+[auth.github]
+enabled = <%= scope.lookupvar('github_enabled') %>
+allow_sign_up = <%= scope.lookupvar('github_allow_sign_up') %>
+client_id = <%= scope.lookupvar('github_client_id') %>
+client_secret = <%= scope.lookupvar('github_client_secret') %>
+scopes = <%= scope.lookupvar('github_scopes') %>
+auth_url = <%= scope.lookupvar('github_auth_url') %>
+token_url = <%= scope.lookupvar('github_token_url') %>
+api_url = <%= scope.lookupvar('github_api_url') %>
+team_ids = <%= scope.lookupvar('github_team_ids') %>
+allowed_organizations = <%= scope.lookupvar('github_allowed_organizations') %>
+
+[auth.google]
+enabled = <%= scope.lookupvar('google_enabled') %>
+allow_sign_up = <%= scope.lookupvar('google_allow_sign_up') %>
+client_id = <%= scope.lookupvar('google_client_id') %>
+client_secret = <%= scope.lookupvar('google_client_secret') %>
+scopes = <%= scope.lookupvar('google_scopes') %>
+auth_url = <%= scope.lookupvar('google_auth_url') %>
+token_url = <%= scope.lookupvar('google_token_url') %>
+api_url = <%= scope.lookupvar('google_api_url') %>
+allowed_domains = <%= scope.lookupvar('google_allowed_domains') %>
+
+[auth.basic]
+enabled = <%= scope.lookupvar('auth_basic_enabled') %>
+
+[smtp]
+enabled = <%= scope.lookupvar('smtp_enabled') %>
+host = <%= scope.lookupvar('smtp_host') %>
+user = <%= scope.lookupvar('smtp_user') %>
+password = <%= scope.lookupvar('smtp_password') %>
+cert_file = <%= scope.lookupvar('smtp_cert_file') %>
+key_file = <%= scope.lookupvar('smtp_key_file') %>
+skip_verify = <%= scope.lookupvar('smtp_skip_verify') %>
+from_address = <%= scope.lookupvar('smtp_from_address') %>
+
+[emails]
+welcome_email_on_sign_up = <%= scope.lookupvar('emails_welcome_email_on_sign_up') %>
+templates_pattern = <%= scope.lookupvar('emails_templates_pattern') %>
+
+[log]
+mode = <% type = scope.lookupvar('logs_mode').length %><% scope.lookupvar('logs_mode').each do |value| %><% type=type - 1 %><%= value %><%= ',' if (type > 0) %><% end %>
+buffer_len = <%= scope.lookupvar('logs_buffer_len') %>
+level = <%= scope.lookupvar('logs_level') %>
+
+[log.console]
+level = <%= scope.lookupvar('logconsole_level') %>
+
+[log.file]
+level = <%= scope.lookupvar('logfile_level') %>
+log_rotate = <%= scope.lookupvar('logfile_rotate') %>
+max_lines = <%= scope.lookupvar('logfile_max_lines') %>
+max_lines_shift = <%= scope.lookupvar('logfile_max_lines_shift') %>
+daily_rotate = <%= scope.lookupvar('logfile_daily_rotate') %>
+max_days = <%= scope.lookupvar('logfile_max_days') %>
+
+[event_publisher]
+#enabled = <%= scope.lookupvar('amqp_enabled') %>
+#rabbitmq_url = <%= scope.lookupvar('amqp_url') %>
+#exchange = <%= scope.lookupvar('amqp_exchange') %>
+
+[dashboards.json]
+enabled = <%= scope.lookupvar('dashboards_enabled') %>
+path = <%= scope.lookupvar('dashboards_path') %>
+

@@ -1,0 +1,27 @@
+---
+yum::server: s3.amazonaws.com/local-yumrepo
+ssh::config::root_allowed: "no"
+ssh::config::password_allowed: "no"
+
+puppet::common::environment: "%{::tag_environment}"
+
+limits:
+    '*':
+        nofile:
+            soft: '102400'
+            hard: '102400'
+
+# clean /tmp,/var/tmp after 3 days
+tidy:
+    /tmp:
+        age: "3d"
+        recurse: 1
+        matches: "*"
+    /var/tmp:
+        age: "3d"
+        recurse: 1
+        matches: "*"
+
+env::gopath: "/usr/lib/golang/"
+env::facterlib: "/etc/puppetlabs/facter/facts.d"
+env::path: "/sbin:/bin:/usr/sbin:/usr/bin:$HOME/bin:/usr/local/bin:/usr/local/sbin"

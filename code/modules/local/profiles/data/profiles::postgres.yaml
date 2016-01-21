@@ -1,0 +1,4 @@
+---
+profiles::postgres::classes:
+    - "::lvm"
+    - "::%{server_role}"

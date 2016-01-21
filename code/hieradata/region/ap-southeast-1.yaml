@@ -1,0 +1,8 @@
+---
+dnsclient::search:
+    - ase1.local.com
+
+dnsclient::nameservers:
+    - "%{::first_two_octets}.0.2"
+
+aws::boto::region:               "ap-southeast-1"

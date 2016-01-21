@@ -1,0 +1,30 @@
+class base::params{
+    $files                     = hiera('common::files', {})
+    $sudo                      = hiera('common::sudo', {})
+    $cron                      = hiera('common::cron', {})
+    $modules                   = hiera('common::python::modules',[])
+    $services_off              = hiera('common::services::off',[])
+    $services_on               = hiera('common::services::on',[])
+    $packages                  = hiera('common::packages',[])
+    $gopath                    = hiera('env::gopath')
+    $facterlib                 = hiera('env::facterlib')
+    $path                      = hiera('env::path')
+    $tag_name                  = $::tag_name
+    $sysctl_values             = hiera('sysctl::base::values',{})
+    $hosts                     = hiera('base::hosts',{})
+
+    # host specific config
+    $host_files                = hiera('host::files', {})
+    $host_sudo                 = hiera('host::sudo::conf', {})
+    $host_cron                 = hiera('host::cron::job', {})
+    $host_users                = hiera('host::users', {})
+    $host_groups               = hiera('host::groups', {})
+    $host_sysctl               = hiera('host::sysctl', {})
+    $host_packages             = hiera('host::packages',[])
+    $host_python_modules       = hiera('host::python_modules',[])
+    $host_nodejs_modules       = hiera('host::nodejs_modules',[])
+    $host_golang_modules       = hiera('host::golang_modules',[])
+    $host_services             = hiera('host::services',[])
+    $host_iptables             = hiera('host::iptables', {})
+    $host_keys                 = hiera('host::keys',{})
+}

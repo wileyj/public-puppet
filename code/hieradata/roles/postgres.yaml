@@ -1,0 +1,12 @@
+---
+env::path: "/sbin:/bin:/usr/sbin:/usr/bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/pgsql-9.4/bin"
+# lvm::volume_groups:
+#     'dbvg':
+#         physical_volumes:
+#             - /dev/sdb
+#         logical_volumes:
+#             data:
+#                 size: 30G
+#                 # size: 80G
+#                 mountpath: /var/lib/pgsql/9.4/data
+#                 mountpath_require: true

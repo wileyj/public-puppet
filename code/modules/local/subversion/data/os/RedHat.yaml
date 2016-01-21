@@ -1,0 +1,44 @@
+---
+subversion::services:
+    - svnserve
+
+subversion::files:
+
+    /home/svnusers:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+
+    /repos:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+
+    /repos/assets:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+        
+    /repos/ops:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+
+    /etc/sysconfig/svnserve:
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+        source : 'puppet:///modules/subversion/etc/sysconfig/svnserve'

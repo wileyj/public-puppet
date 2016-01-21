@@ -1,0 +1,16 @@
+{
+    "api.version": "v1",
+    "source": {
+        "name": "Uchiwa Server Log",
+        "hostName": "<%= scope.lookupvar('::hostname') %>",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "Monitoring/<%= scope.lookupvar('::tag_environment') %>/sensu",
+        "pathExpression": "/var/log/uchiwa/uchiwa.log"
+    }
+}

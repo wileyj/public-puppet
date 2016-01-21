@@ -1,0 +1,12 @@
+{
+    "checks": {
+        "rabbitmq_overview_metric": {
+            "type": "metric",
+            "handlers": ["graphite_line_tcp"],
+            "command": "/etc/sensu/plugins/rabbitmq-overview-metrics.rb --host 127.0.0.1 --user sensu --password secret --scheme stats-:::name:::.rabbitmq-overview",
+            "auto_tag_host": "yes",
+            "interval": 30,
+            "subscribers": ["sensu_server"]
+        }
+    }
+}

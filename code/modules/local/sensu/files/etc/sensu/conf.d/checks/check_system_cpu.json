@@ -1,0 +1,18 @@
+{
+    "checks": {
+        "cpu": {
+            "command": "/etc/sensu/plugins/check-cpu.rb -w 75 -c 85",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 60,
+            "occurrences": 10,
+            "handlers": [
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "default"
+            ]
+        }
+    }
+}

@@ -1,0 +1,5 @@
+# this file maintained by puppet. do no modify directly
+modulepath      = <% [@env_module_path].flatten.each do |path| -%><%= path %><% end -%>
+
+manifest        = <%= scope.lookupvar('env_manifest') %> 
+config_version  = <%= scope.lookupvar('env_version') %>

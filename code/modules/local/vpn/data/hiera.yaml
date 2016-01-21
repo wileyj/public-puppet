@@ -1,0 +1,4 @@
+:hierarchy:
+    - "os/%{::osfamily}"
+    - "regions/%{::tag_region}"
+    - "common"

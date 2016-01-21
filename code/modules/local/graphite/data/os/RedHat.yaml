@@ -1,0 +1,20 @@
+---
+env::path: "/sbin:/bin:/usr/sbin:/usr/bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/pgsql-9.4/bin"
+graphite::grafana::files:
+    /root/grafana.sql:
+        ensure : present
+        owner  : 'root' 
+        group  : 'root'
+        mode   : '0600'
+        replace: true 
+        source : 'puppet:///modules/graphite/root/grafana.sql'
+
+graphite::grafana::packages:
+    - golang
+    - golang-src
+
+graphite::grafana::modules:
+    - github.com/grafana/grafana
+
+graphite::grafana::npm:
+    - grunt-cli

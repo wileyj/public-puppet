@@ -1,0 +1,17 @@
+---
+sensu::groups:
+    sensu:
+        ensure: present
+        gid:    489
+        members: [
+            'sensu'
+        ]
+
+sensu::users:
+    sensu:
+        ensure: present
+        home:   /etc/sensu
+        shell: /bin/bash
+        uid:    489
+        gid:    489
+

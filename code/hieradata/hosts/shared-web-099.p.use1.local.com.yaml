@@ -1,0 +1,97 @@
+---
+
+host::packages:
+    - s3fs-fuse
+    - nodejs
+    - nodejs-npm
+
+host::python::modules:
+    - flower
+    - redis
+
+host::nodejs::modules:
+    - forever
+
+host::services:
+    - flower
+
+host::sudo::conf:
+    'jenkins' :
+        priority : 1
+        content  : "# sudo::jenkins - This file is maintained by puppet\nCmnd_Alias DATA = /etc/init.d/data, /sbin/service data *\njenkins ALL = NOPASSWD:DATA\nDefaults !requiretty"
+
+host::files:
+    '/u/docroot/flower.local.com':
+        ensure : directory
+        replace: false
+        owner:   jenkins
+        group:   jenkins
+        recurse: true
+
+    '/var/log/flower':
+        replace: false
+        recurse: false
+        owner  : nginx
+        group  : nginx
+        ensure : directory
+
+    '/yumrepo':
+        replace: false
+        recurse: false
+        owner  : nginx
+        group  : nginx
+        ensure : directory
+
+    '/opt/nodejs':
+        ensure : directory
+        replace: false
+        owner:   nginx
+        group:   nginx
+        recurse: false
+
+    '/opt/nodejs/0.12':
+        ensure : directory
+        replace: false
+        owner:   nginx
+        group:   nginx
+        recurse: false
+
+    '/opt/nodejs/0.12/slots-data-server':
+        ensure : directory
+        replace: false
+        owner:   jenkins
+        group:   jenkins
+        recurse: false
+
+    '/etc/nginx/sites-available/flower.local.com':
+        source : 'puppet:///modules/nginx/etc/nginx/sites-available/flower.local.com'
+        replace: true
+        owner  : root
+        group  : root
+        mode   : '0644'
+
+    '/etc/nginx/sites-available/yumrepo.local.com':
+        source : 'puppet:///modules/nginx/etc/nginx/sites-available/yumrepo.local.com'
+        replace: true
+        owner  : root
+        group  : root
+        mode   : '0644'
+
+    '/etc/nginx/sites-enabled/flower.local.com':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/flower.local.com'
+
+    '/etc/nginx/sites-enabled/yumrepo.local.com':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/yumrepo.local.com'
+
+    '/etc/nginx/sites-enabled/crm.local.com':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/crm.local.com'
+
+    '/etc/init.d/flower':
+        source : 'puppet:///modules/base/etc/init.d/flower'
+        replace: true
+        owner  : root
+        group  : root
+        mode   : '0755'

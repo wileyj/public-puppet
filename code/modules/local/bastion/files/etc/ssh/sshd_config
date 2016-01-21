@@ -1,0 +1,62 @@
+Port 22
+Protocol 2
+
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+KeyRegenerationInterval 1h
+ServerKeyBits 2048
+SyslogFacility AUTH
+LogLevel INFO
+LoginGraceTime 30
+StrictModes yes
+#this is set high in case someone uses ssh-agent and has a lot of keys
+MaxAuthTries 20
+MaxStartups 20:30:60
+MaxSessions 10
+RSAAuthentication no
+RhostsRSAAuthentication no
+HostbasedAuthentication no
+IgnoreRhosts yes
+DSAAuthentication yes
+IgnoreUserKnownHosts yes
+PasswordAuthentication no
+ChallengeResponseAuthentication yes
+UsePAM no
+PubkeyAuthentication yes
+AllowAgentForwarding yes
+GatewayPorts no
+X11Forwarding no
+PrintMotd no
+PrintLastLog no
+UseLogin no
+PermitTunnel yes
+UseDNS no
+AuthorizedKeysFile .ssh/authorized_keys
+AllowTcpForwarding yes
+PermitEmptyPasswords no
+Ciphers 3des-cbc,aes256-ctr,aes192-ctr,aes128-ctr,arcfour256
+
+MACs hmac-sha1
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+
+
+UsePrivilegeSeparation yes
+TCPKeepAlive yes
+ClientAliveInterval 300
+ClientAliveCountMax 3
+PidFile /var/run/sshd.pid
+
+# Accept locale-related environment variables
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+
+Match Group jailed
+    ChrootDirectory /export
+    AllowTCPForwarding yes
+    X11Forwarding no

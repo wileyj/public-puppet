@@ -1,0 +1,112 @@
+---
+jenkins::packages:
+    - jenkins
+    - libcurl
+    - libcurl-devel
+
+jenkins::services:
+    - jenkins
+
+jenkins::files:
+    '/opt/jenkins/home/workspace':
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        mode    : '0755'
+
+    '/opt/jenkins/home/checksuccess.py':
+        source  : 'puppet:///modules/jenkins/opt/jenkins/home/checksuccess.py'
+        ensure  : present
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        mode    : '0644'
+
+    '/opt/jenkins/home/config.xml':
+        source  : 'puppet:///modules/jenkins/opt/jenkins/home/config.xml'
+        ensure  : present
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        mode    : '0644'
+
+    '/opt/jenkins/home/jobs':
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        recurse : true
+        mode    : '0755'
+
+    '/opt/jenkins/home/logs':
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        recurse : false
+        mode    : '0755'
+
+    '/opt/jenkins/home/plugins':
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        recurse : false
+        mode    : '0755'
+
+    '/opt/jenkins/home/updates':
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        recurse : true
+        mode    : '0755'
+
+    '/opt/jenkins/home/userContent':
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        recurse : true
+        mode    : '0755'
+
+    '/opt/jenkins/home/users':
+        source  : 'puppet:///modules/jenkins/opt/jenkins/home/users'
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : false
+        recurse : true
+        mode    : '0755'
+
+    # '/opt/jenkins/home/workspace':
+    #     ensure  : directory
+    #     owner   : 'jenkins'
+    #     group   : 'jenkins'
+    #     replace : false
+    #     recurse : false
+    #     mode    : '0755'
+
+    '/var/log/jenkins':
+        replace : false
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        recurse : false
+        ensure  : directory
+        mode    : '0775'
+
+    '/etc/init.d/jenkins':
+        source  : 'puppet:///modules/base/etc/init.d/jenkins'
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0775'
+        replace : true
+
+    '/opt/jenkins/scripts':
+        source  : 'puppet:///modules/jenkins/opt/jenkins/scripts/'
+        ensure  : directory
+        owner   : 'jenkins'
+        group   : 'jenkins'
+        replace : true
+        recurse : true
+        mode    : '0755'

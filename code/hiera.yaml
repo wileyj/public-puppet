@@ -1,0 +1,28 @@
+---
+:logger: console
+
+:backends:
+    - yaml
+    # - json
+
+:yaml:
+    :datadir: /etc/puppetlabs/code/hieradata
+
+:hierarchy:
+    - "roles/%{::server_role}"
+    - "os/%{::osfamily}"
+    - "%{::domain}"
+    - "region/%{::tag_region}"
+    - "class/%{::tag_environment}/%{::server_class}-%{::server_role}"
+    - "application/%{::tag_environment}/%{::server_class}"
+    - "sites/%{::tag_site_name}"
+    - "environment/%{::tag_environment}" 
+    - "hosts/%{::hostname_full}"
+    - "common"
+    - "common/omni"
+    - "users/%{::server_role}"
+    - "users/omni"
+    - "sumo"
+    - "monitoring"
+
+:merge_behavior: deeper

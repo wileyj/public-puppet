@@ -1,0 +1,7 @@
+---
+puppet::packages:
+    - puppet
+    - hiera
+    - facter
+    - rubygem-sys-proctable
+    - rubygem-deep_merge

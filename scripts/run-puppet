@@ -1,0 +1,61 @@
+#!/bin/sh
+export PIP_DISABLE_PIP_VERSION_CHECK=1
+export GOPATH="/usr/lib/golang/"
+export FACTERLIB="/etc/puppetlabs/facter/facts.d"
+GITREPO="git@github.com:repo/puppet.git"
+if [ -f "/usr/local/bin/pip" ];then
+    /usr/local/bin/pip install --upgrade boto
+elif [ -f "/usr/bin/pip-2.7" ]; then
+    /usr/bin/pip-2.7 install --upgrade boto
+else
+    /usr/bin/pip install --upgrade boto
+fi    
+HOST=`/bin/hostname`
+ENV=`/usr/bin/facter -p tag_environment`
+#ENV="production" # for now, this is it
+MANIFESTS="/etc/puppetlabs"
+PROGDIR="/opt/puppetlabs"
+SITE_PP="${MANIFESTS}/code/environments/${ENV}/manifests/site.pp"
+SCRIPT="/opt/scripts/git.sh"
+KEY="/root/.ssh/puppet"
+LOGFILE="/var/log/puppet/puppet.log"
+PROG="${PROGDIR}/bin/puppet"
+BINPATH="/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin"
+if [[ ${HOST} == *postgres* || ${HOST} == *graphite* ]]; then
+    BINPATH=${BINPATH}:/usr/pgsql-9.4/bin
+fi
+export PATH=${BINPATH}
+if [ ! $2 ];then
+    REPO="master"
+else
+    REPO="$2"
+fi
+/bin/sed -i -e '/^#.*common\/cron/s/^#//' ${MANIFESTS}/code/hiera.yaml 
+if [ ! -f "/etc/sysconfig/fixrepo" ]; then
+    ## for temporary. needed to update hosts to have smaller puppet repo (killed a shit-on of history)
+    rm -rf /etc/puppetlabs/.git /etc/puppetlabs/*
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} init
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} remote add origin $GITREPO
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} fetch $GITREPO
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} reset --hard
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} clean -f -d
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} pull $GITREPO
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} reset --hard 
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} clean -f -d
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} pull origin ${REPO}
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} submodule init
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} submodule update
+    touch /etc/sysconfig/fixrepo
+else
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} reset --hard ${REPO}
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} clean -f -d
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} pull origin ${REPO}
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} submodule init
+    ${SCRIPT} -i ${KEY} -C ${MANIFESTS} submodule update
+fi
+OP=""
+if [ "${1}" == "-d" ];then
+    OP="-dv --trace"
+fi
+chown -R puppet:puppet ${MANIFESTS} ${PROGDIR}
+${PROG} apply ${OP} ${SITE_PP} | /usr/bin/tee ${LOGFILE}

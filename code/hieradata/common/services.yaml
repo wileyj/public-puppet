@@ -1,0 +1,53 @@
+---
+common::services::on:
+    - denyhosts
+    # - statsd
+    # - collectd
+
+ssh::services:
+    - sshd
+
+common::services::off:
+    - apcid
+    - anacron
+    - atd
+    - conman
+    - cups
+    - dhcdbd
+    - dund
+    - firstboot 
+    - gpm
+    - haldaemon
+    - hidd
+    - ip6tables
+    - irda
+    - kudzu
+    - mcstrans
+    - mdmonitor
+    - mdmpd
+    - messagebus
+    - multipathd
+    - netconsole
+    - netfs
+    - netplugd
+    - nfs
+    - nfslock
+    - nscd
+    - oddjobd 
+    - pand
+    - pcscd
+    - portmap
+    - psacct
+    - rdisc
+    - readahead_early
+    - readahead_later
+    - restorecond
+    - rpcgssd
+    - rpcidmapd
+    - rpcsvcgssd
+    - saslauthd
+    - sendmail
+    - smartd
+    - wpa_supplicant
+    - ypbind
+    - yum-updatesd

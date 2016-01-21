@@ -1,0 +1,10 @@
+#! /bin/sh
+export JAVA_HOME="/usr/java/current/bin"
+export BASEDIR="/opt/tomcat"
+export catalina="/opt/tomcat/bin/catalina.sh"
+export TOMCAT_HOME="/opt/tomcat"
+export LOGDIR="/u/log/tomcat"
+export INSTANCES="/opt/tomcat/instances"
+export TOMCAT_USER=tomcat
+export SHUTDOWN_WAIT=45
+

@@ -1,0 +1,8 @@
+---
+dnsclient::search:
+    - usw2.local.com
+
+dnsclient::nameservers:
+    - "%{::first_two_octets}.0.2"
+
+aws::boto::region:               "us-west-2"

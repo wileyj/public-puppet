@@ -1,0 +1,23 @@
+fixtures:
+  forge_modules:
+    archive:
+      repo: "camptocamp/archive"
+      ref: "0.3.1"
+    composer:
+      repo: "willdurand/composer"
+      ref: "1.1.1"
+    concat:
+      repo: "puppetlabs/concat"
+      ref: "1.2.4"
+    module_data:
+      repo: "ripienaar/module_data"
+      ref: "0.0.3"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "4.6.0"
+    wget:
+      repo: "maestrodev/wget"
+      ref: "1.7.0"
+  symlinks:
+    roundcube: "#{source_dir}"
+

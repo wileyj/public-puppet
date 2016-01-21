@@ -1,0 +1,21 @@
+# this file maintained by puppet. do no modify directly
+
+[main]
+    codedir         = <%= scope.lookupvar('codedir') %>
+    confdir         = <%= scope.lookupvar('confdir') %>
+    environment     = <%= scope.lookupvar('environment') %>
+    basemodulepath  = <% [@module_path].flatten.each do |path| -%><%= path %><% end -%>
+    
+    factpath        = <%= scope.lookupvar('factpath') %>
+    vardir          = <%= scope.lookupvar('vardir') %>
+    logdir          = <%= scope.lookupvar('logdir') %>
+    rundir          = <%= scope.lookupvar('rundir') %>
+    lastrunfile     = $vardir/state/last_run_summary.yaml { mode=0664 }
+    statefile       = $vardir/state/state.yaml { mode=0664 }
+    listen          = <%= scope.lookupvar('listen') %>
+    summarize       = <%= scope.lookupvar('summarize') %>
+    paramcheck      = <%= scope.lookupvar('paramcheck') %>
+    report          = <%= scope.lookupvar('report') %>
+    pluginsync      = <%= scope.lookupvar('pluginsync') %>
+    pluginsignore   = .svn CVS .hg .git
+    loglevel        = <%= scope.lookupvar('puppet_loglevel') %>

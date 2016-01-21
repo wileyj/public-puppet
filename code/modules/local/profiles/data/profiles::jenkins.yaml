@@ -1,0 +1,7 @@
+---
+profiles::jenkins::classes:
+    - "::lvm"
+    - "::java"
+    - "::nginx"
+    - "::nodejs"
+    - "::%{server_role}"

@@ -1,0 +1,26 @@
+#!/bin/sh
+REPOS="$1"
+REV="$2"
+
+# No environment is passed to svn hook scripts; set paths to external tools explicitly:
+WGET=/usr/bin/wget
+SVNLOOK=/usr/bin/svnlook
+
+UUID=`$SVNLOOK uuid $REPOS`
+NOTIFY_URL="subversion/${UUID}/notifyCommit?rev=${REV}"
+
+function notifyCI {
+    # URL to Hudson/Jenkins server application (with protocol, hostname, port and deployment descriptor if needed)
+    CISERVER=$1
+
+    $WGET \
+        --auth-no-challenge \
+        --header "Content-Type:text/plain;charset=UTF-8" \
+        --post-data "`$SVNLOOK changed --revision $REV $REPOS`" \
+        --output-document "-"\
+        --timeout=2 \
+        ${CISERVER}/${NOTIFY_URL}
+}
+
+# The code above was placed in a function so you can easily notify multiple Jenkins/Hudson servers:
+notifyCI "http://jenkins.local.com"

@@ -1,0 +1,9 @@
+name         'Redis'
+summary      'Redis Module'
+description  'This is the Redis Module'
+version      '0.0.1'
+author       'wileyj'
+license      'Apache 2.0'
+source       'https://github.com/wileyj/public-puppet/code/modules/local/redis'
+project_page 'https://github.com/wileyj/public-puppet/code/modules/local/redis'
+

@@ -1,0 +1,7 @@
+!/.travis/Gemfile
+!/.travis/travis.yml
+
+/pkg/*
+/.travis/*
+/spec/fixtures/*
+

@@ -1,0 +1,17 @@
+[ui]
+default_graph_width = <%= scope.lookupvar('dashboard_ui_default_graph_width') %>
+default_graph_height = <%= scope.lookupvar('dashboard_ui_default_graph_height') %>
+automatic_variants = <%= scope.lookupvar('dashboard_ui_automatic_variants') %>
+refresh_interval = <%= scope.lookupvar('dashboard_ui_refresh_interval') %>
+autocomplete_delay = <%= scope.lookupvar('dashboard_ui_autocomplete_delay') %>
+merge_hover_delay = <%= scope.lookupvar('dashboard_ui_merge_hover_delay') %>
+theme = <%= scope.lookupvar('dashboard_ui_theme') %>
+
+[keyboard-shortcuts]
+toggle_toolbar = <%= scope.lookupvar('dashboard_keyboard_toggle_toolbar') %>
+toggle_metrics_panel = <%= scope.lookupvar('dashboard_keyboard_toggle_metrics_panel') %>
+erase_all_graphs = <%= scope.lookupvar('dashboard_keyboard_erase_all_graphs') %>
+save_dashboard = <%= scope.lookupvar('dashboard_keyboard_save_dashboard') %>
+completer_add_metrics = <%= scope.lookupvar('dashboard_keyboard_completer_add_metrics') %>
+completer_del_metrics = <%= scope.lookupvar('dashboard_keyboard_completer_del_metrics') %>
+give_completer_focus = <%= scope.lookupvar('dashboard_keyboard_give_completer_focus') %>

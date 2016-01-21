@@ -1,0 +1,20 @@
+---
+common::python::modules:
+    # - pip
+    - amqp 
+    - anyjson 
+    - backports.ssl-match-hostname 
+    - billiard 
+    - docopt
+    - jedi
+    - jmespath 
+    - kombu 
+    - prompt-toolkit 
+    - ptpython
+    - Pygments
+    - python-dateutil 
+    - pytz 
+    - six 
+    - wcwidth 
+    - wsgiref
+    # - numpy

@@ -1,0 +1,17 @@
+---
+graphite::groups:
+    graphite:
+        ensure: present
+        gid:    591
+        members: [
+            'graphite'
+        ]
+
+graphite::users:
+    graphite:
+        ensure: present
+        managehome: true
+        home:   /opt/graphite
+        shell:  /sbin/nologin
+        uid:    591
+        gid:    591

@@ -1,0 +1,23 @@
+[uwsgi]
+binary-path = <%= scope.lookupvar('uwsgi_binary_path') %>
+processes = <%= scope.lookupvar('uwsgi_processes') %>
+socket = <%= scope.lookupvar('uwsgi_socket') %>
+harakiri = 30
+carbon = 127.0.0.1:2003
+wsgi-file = <%= scope.lookupvar('uwsgi_wsgi_file') %>
+gid = <%= scope.lookupvar('uwsgi_gid') %>
+uid = <%= scope.lookupvar('uwsgi_uid') %>
+module = <%= scope.lookupvar('uwsgi_module') %>
+pythonpath = /opt/graphite/webapp/graphite
+daemonize = <%= scope.lookupvar('uwsgi_daemonize') %>
+import = uwsgi_metrics
+chown-socket = <%= scope.lookupvar('uwsgi_chown_socket') %>
+die-on-term = <%= scope.lookupvar('uwsgi_die_on_term') %>
+emperor = <%= scope.lookupvar('uwsgi_emperor') %>
+enable-threads = <%= scope.lookupvar('uwsgi_enable_threads') %>
+limit-as = <%= scope.lookupvar('uwsgi_limit_as') %>
+master = <%= scope.lookupvar('uwsgi_master') %>
+vacuum = <%= scope.lookupvar('uwsgi_vacuum') %>
+vhost = <%= scope.lookupvar('uwsgi_vhost') %>
+workers = <%= scope.lookupvar('uwsgi_workers') %>
+
