@@ -6,13 +6,13 @@ class base {
     class { 'base::templates': } ->
     class { 'base::users': }     ->
     class { 'jenkins::users': }  ->
-    #class { 'celery::users': }   ->
     class { 'base::sysctl': }    ->
     class { 'base::denyhosts': } ->
     class { 'base::hosts': }     ->
     class { 'base::services': }  ->
     #class { 'base::host': }     ->
     class { 'base::collectd': }  ->
+    class { 'base::statsd': }    ->
     class { 'base::sudo': }      ->
     class { 'base::cron': }      ->
     class { 'base::sumo': }

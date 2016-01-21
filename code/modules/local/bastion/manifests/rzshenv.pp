@@ -1,4 +1,4 @@
-class bastion::rzshenv inherits bastion::params {
+class bastion::rzshenv {
   	exec { 
         "setup_chroot_libraries" :
             command         => "/usr/bin/perl /opt/scripts/chroot_setup.pl",
