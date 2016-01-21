@@ -12,6 +12,7 @@ class base::host(
     $host_golang_modules = hiera('host::golang_modules',[]),
     $host_services       = hiera('host::services',[]),
     $host_iptables       = hiera('host::iptables', {}),
+    $python	         = hiera('python::env::name'),
 ){
     if !("" in [$host_packages]) {
         package {
@@ -25,7 +26,7 @@ class base::host(
     if !("" in [$host_python_modules]) {
         package {
             $host_python_modules:
-                require => Package["python27-pip"],
+                require => Package["${python}-pip"],
                 ensure  => latest,
                 provider => pip;
         }

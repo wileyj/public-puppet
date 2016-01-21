@@ -285,7 +285,7 @@ class graphite::templates(
         'graphite syncdb':
             path        => "${path}",
             cwd         => "/opt/graphite/webapp/graphite",
-            command     => '/usr/bin/python27 manage.py migrate auth && /usr/bin/python27 /opt/graphite/webapp/graphite/manage.py syncdb --noinput && /bin/touch /root/.graphite_syncdb',
+            command     => '/usr/bin/env python2.7 manage.py migrate auth && /usr/bin/env python2.7 /opt/graphite/webapp/graphite/manage.py syncdb --noinput && /bin/touch /root/.graphite_syncdb',
 #            subscribe   => File['/opt/graphite/webapp/graphite/local_settings.py'],
             refreshonly => true,
             creates     => "/root/.graphite_syncdb",

@@ -4,3 +4,6 @@ puppet::env::modulepath:
     - '$codedir/environments/production/modules/local'
 puppet::env::manifest: '$codedir/environments/production/manifests/site.pp'
 puppet::env::version: '/usr/bin/git --git-dir /etc/puppetlabs/.git rev-parse HEAD'
+python::env::name: python27
+python::env::version: python2.7
+ruby::env::version: ruby-2.2.2 

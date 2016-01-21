@@ -28,7 +28,7 @@ lockfile="/var/lock/subsys/$prog"
 loglevel="warning"
 port="5555"
 broker="shared-redis-001.p.use1.local.com"
-python_bin="/usr/bin/python27"
+python_bin="/usr/bin/env python2.7"
 flower_bin=$flower
 
 start() {

@@ -1,4 +1,4 @@
-#!/usr/bin/python27
+#!/usr/bin/env python2.7
 # http://boto.readthedocs.org/en/latest/ref/ec2.html#module-boto.ec2.instance
 # python get_id.py -r us-east-1 -i i-b608d84b
 

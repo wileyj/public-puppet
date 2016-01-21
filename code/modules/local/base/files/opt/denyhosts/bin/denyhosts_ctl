@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/env python2.7
 # denyhosts     Bring up/down the DenyHosts daemon
 #
 # chkconfig: 2345 98 02
@@ -14,7 +14,7 @@
 DENYHOSTS_BIN   = "/opt/denyhosts/bin/denyhosts.py"
 DENYHOSTS_LOCK  = "/var/lock/subsys/denyhosts"
 DENYHOSTS_CFG   = "/opt/denyhosts/etc/denyhosts.cfg"
-PYTHON_BIN      = "/usr/bin/python2.7"
+PYTHON_BIN      = "/usr/bin/env python2.7"
 
 ###############################################
 ####         Do not edit below             ####
