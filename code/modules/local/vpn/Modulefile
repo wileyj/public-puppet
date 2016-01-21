@@ -1,0 +1,9 @@
+name         'VPN'
+summary      'VPN Module'
+description  'This is the VPN Module'
+version      '0.0.1'
+author       'wileyj'
+license      'Apache 2.0'
+source       'https://github.com/wileyj/public-puppet/code/modules/local/vpn'
+project_page 'https://github.com/wileyj/public-puppet/code/modules/local/vpn'
+

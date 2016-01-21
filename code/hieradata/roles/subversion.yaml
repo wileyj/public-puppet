@@ -1,0 +1,72 @@
+---
+subversion::packages:
+    - expat-devel
+    - apr-util-devel
+    - subversion
+    - subversion-devel
+    - subversion-libs
+    - subversion-python27
+    - subversion-ruby
+    - subversion-tools
+    - git-svn
+    - perl-Git
+    - mod_dav_svn
+    - svn2cl
+
+subversion::services:
+    - svnserve
+
+lvm::volume_groups:
+    'svnvg':
+        physical_volumes:
+            - /dev/sdf
+        logical_volumes:
+            svn-assets:
+                size: 45G
+                mountpath: /repos/assets
+                mountpath_require: true
+            ops:
+                size: 10G
+                mountpath: /repos/ops
+                mountpath_require: true
+
+subversion::files:
+    /home/svnusers:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+
+    /repos:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+
+    /repos/assets:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+
+    /repos/ops:
+        replace: false
+        owner  : 'root'
+        group  : 'svnusers'
+        recurse: false
+        ignore : "*.svn"
+        ensure : directory
+
+    /etc/sysconfig/svnserve:
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+        source : 'puppet:///modules/subversion/etc/sysconfig/svnserve'
+

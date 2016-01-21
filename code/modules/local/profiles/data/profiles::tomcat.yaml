@@ -1,0 +1,5 @@
+---
+profiles::tomcat::classes:
+    - "nginx"
+    - "java"
+    - "tomcat"

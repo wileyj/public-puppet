@@ -1,0 +1,8 @@
+{
+    "handlers": {
+        "remediation": {
+            "type": "pipe",
+            "command": "/etc/sensu/handlers/remediation.rb"
+        }
+    }
+}

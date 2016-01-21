@@ -1,0 +1,7 @@
+[statsd]
+pattern = ^stats.*
+retentions = 10s:1d,1m:7d,10m:1y
+
+[carbon]
+pattern = <%= scope.lookupvar('storage_schema_pattern') %>
+retentions = <%= scope.lookupvar('storage_schema_retentions') %>

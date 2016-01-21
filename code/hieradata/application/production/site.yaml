@@ -1,0 +1,144 @@
+---
+##############################
+# sensu client subscriptions #
+##############################
+sensu::client::subscriptions:
+    - default
+    - linux
+    - metrics
+    - app-prod
+
+beanstalk::packages:
+    - monit
+    - newrelic-sysmond
+#     - httpd
+#     - httpd-tools
+#     - tomcat8
+#     - tomcat8-el
+#     - tomcat8-jsp
+#     - tomcat8-lib
+#     - tomcat8-servlet
+beanstalk::xmx: "512m"
+beanstalk::xms: "512m"
+beanstalk::permgen: "64m"
+
+beanstalk::services:
+   - httpd
+   - tomcat8
+   - transfer-logs
+   - monit
+   - newrelic-sysmond
+
+beanstalk::files:
+    '/etc/httpd/conf.d/rewrite.conf':
+        source  : 'puppet:///modules/beanstalk/etc/httpd/conf.d/rewrite.conf'
+        ensure  : present
+        owner   : 'root'
+        group   : 'root'
+        replace : true
+        mode    : '0644'
+        #notify  : Service["httpd"]
+
+    '/etc/httpd/conf.d/maskendpoints.conf':
+        source  : 'puppet:///modules/beanstalk/etc/httpd/conf.d/maskendpoints.conf'
+        ensure  : present
+        owner   : 'root'
+        group   : 'root'
+        replace : true
+        mode    : '0644'
+
+    '/etc/httpd/conf.d/elasticbeanstalk.conf':
+        source  : 'puppet:///modules/beanstalk/etc/httpd/conf.d/elasticbeanstalk.conf'
+        ensure  : present
+        owner   : 'root'
+        group   : 'root'
+        replace : true
+        mode    : '0644'
+        #notify  : Service["httpd"]
+
+    '/etc/init.d/transfer-logs':
+        source  : 'puppet:///modules/base/etc/init.d/transfer-logs'
+        ensure  : present
+        owner   : 'root'
+        group   : 'root'
+        replace : true
+        mode    : '0755'
+
+    '/opt/newrelic':
+        ensure  : directory
+        replace : false
+        owner   : 'tomcat'
+        group   : 'tomcat'
+        recurse : false
+
+
+
+    # '/opt/newrelic/newrelic.jar':
+    #     source  : 'puppet:///modules/beanstalk/opt/newrelic/newrelic.jar'
+    #     ensure  : present
+    #     owner   : 'tomcat'
+    #     group   : 'tomcat'
+    #     replace : true
+    #     mode    : '0644'
+
+    # '/opt/newrelic/newrelic.yml':
+    #     source  : 'puppet:///modules/beanstalk/opt/newrelic/newrelic.yml'
+    #     ensure  : present
+    #     owner   : 'tomcat'
+    #     group   : 'tomcat'
+    #     replace : true
+    #     mode    : '0644'
+
+    # '/etc/httpd/conf.d/elasticbeanstalk.conf':
+    #     source  : 'puppet:///modules/beanstalk/etc/httpd/conf.d/elasticbeanstalk.conf'
+    #     ensure  : present
+    #     owner   : 'root'
+    #     group   : 'root'
+    #     replace : false
+    #     mode    : '0600'
+    #     notify  : Service["httpd"]
+
+    # '/usr/share/tomcat8/conf/server.xml':
+    #     source  : 'puppet:///modules/beanstalk/usr/share/tomcat8/conf/server.xml'
+    #     ensure  : present
+    #     owner   : 'tomcat'
+    #     group   : 'tomcat'
+    #     replace : false
+    #     mode    : '0644'
+    #     notify  : Service["tomcat8"]
+
+    # '/usr/share/tomcat8/conf/tomcat8.conf':
+    #     source  : 'puppet:///modules/beanstalk/usr/share/tomcat8/conf/tomcat8.conf'
+    #     ensure  : present
+    #     owner   : 'tomcat'
+    #     group   : 'tomcat'
+    #     replace : false
+    #     mode    : '0644'
+    #     notify  : Service["tomcat8"]
+
+    # '/usr/share/tomcat8/conf/catalina.properties':
+    #     source  : 'puppet:///modules/beanstalk/usr/share/tomcat8/conf/catalina.properties'
+    #     ensure  : present
+    #     owner   : 'tomcat'
+    #     group   : 'tomcat'
+    #     replace : false
+    #     mode    : '0644'
+    #     notify  : Service["tomcat8"]
+
+    # '/usr/share/tomcat8/conf/logging.properties':
+    #     source  : 'puppet:///modules/beanstalk/usr/share/tomcat8/conf/logging.properties'
+    #     ensure  : present
+    #     owner   : 'tomcat'
+    #     group   : 'tomcat'
+    #     replace : false
+    #     mode    : '0644'
+    #     notify  : Service["tomcat8"]
+
+    # # '/usr/share/tomcat8/lib/newrelic.jar':
+    # #     source  : 'puppet:///modules/beanstalk/usr/share/tomcat8/lib/newrelic.jar'
+    # #     ensure  : present
+    # #     owner   : 'tomcat'
+    # #     group   : 'tomcat'
+    # #     replace : false
+    # #     mode    : '0644'
+    # #     notify  : Service["tomcat8"]

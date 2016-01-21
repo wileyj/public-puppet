@@ -1,0 +1,6 @@
+---
+profiles::graphite::classes:
+    - "profiles::nginx"
+    - "::postgres"
+    - "::graphite"
+    - "::grafana"

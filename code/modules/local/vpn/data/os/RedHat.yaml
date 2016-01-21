@@ -1,0 +1,54 @@
+---
+vpn::packages:
+    - openswan 
+    - quagga 
+    - ppp 
+
+vpn::services:
+    - ipsec
+
+vpn::cron::job:
+    vpn-restart.cron:
+        minute : '15'
+        hour   : '11'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /etc/init.d/ipsec restart > /var/tmp/ipsec_restart.out 2>&1'
+
+sysctl::base::values:
+    net.ipv4.ip_forward:
+        value: '1'
+    net.ipv4.conf.all.accept_redirects:
+        value: '0'
+    net.ipv4.conf.all.send_redirects:
+        value: '0'
+    net.ipv4.conf.default.rp_filter:
+        value: '1'
+    net.ipv4.conf.default.accept_source_route:
+        value: '0'
+    kernel.sysrq:
+        value: '0'
+    kernel.core_uses_pid:
+        value: '1'
+    net.ipv4.tcp_syncookies:
+        value: '1'
+    net.bridge.bridge-nf-call-ip6tables:
+        value: '0'
+    net.bridge.bridge-nf-call-iptables:
+        value: '0'
+    net.bridge.bridge-nf-call-arptables:
+        value: '0'
+    kernel.msgmnb:
+        value: '65536'
+    kernel.msgmax:
+        value: '65536'
+    kernel.shmmax:
+        value: '68719476736'
+    kernel.shmall:
+        value: '4294967296'
+
+vpn::files:
+    /etc/ipsec.d:
+        ensure : directory
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0600'

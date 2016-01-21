@@ -1,0 +1,21 @@
+# connection.service.ase1-app.erb
+# *** ensure file has newline at the end ***
+conn <%= scope.lookupvar('ase1_service_app_conn') %>
+    forceencaps=<%= scope.lookupvar('forceencaps') %>
+    aggrmode=<%= scope.lookupvar('aggrmode') %>
+    authby=<%= scope.lookupvar('authby') %>
+    auto=<%= scope.lookupvar('auto') %>
+    type=<%= scope.lookupvar('type') %>
+    ike=<%= scope.lookupvar('ike') %>
+    phase2alg=<%= scope.lookupvar('phase2alg') %>
+    dpdaction=<%= scope.lookupvar('dpdaction') %>
+    dpddelay=<%= scope.lookupvar('dpddelay') %>
+    dpdtimeout=<%= scope.lookupvar('dpdtimeout') %>
+    left=<%= scope.lookupvar('private_ip') %>
+    leftid=<%= scope.lookupvar('public_ip') %>
+    leftsubnet=<%= scope.lookupvar('public_subnet') %>
+    leftrsasigkey=<%= scope.lookupvar('source_key') %>
+    right=<%= scope.lookupvar('ase1_service_app_public') %>
+    rightsubnet=<%= scope.lookupvar('ase1_service_app_subnet') %>
+    rightrsasigkey=<%= scope.lookupvar('dest_key') %>
+

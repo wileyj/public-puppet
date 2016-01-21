@@ -1,0 +1,9 @@
+name         'Base'
+summary      'Base Module'
+description  'This is the Base Module'
+version      '0.0.1'
+author       'wileyj'
+license      'Apache 2.0'
+source       'https://github.com/wileyj/public-puppet/code/modules/local/base'
+project_page 'https://github.com/wileyj/public-puppet/code/modules/local/base'
+

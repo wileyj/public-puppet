@@ -1,0 +1,120 @@
+---
+host::packages:
+    - nginx
+    - perl-Text-Template
+    - lua
+    - nodejs
+
+host::files:
+    '/opt/python':
+        replace: false
+        recurse: false
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        ensure : directory
+
+    '/var/log/flower':
+        replace: false
+        recurse: false
+        owner  : nginx
+        group  : nginx
+        ensure : directory
+
+    '/yumrepo':
+        replace: false
+        recurse: false
+        owner  : nginx
+        group  : nginx
+        ensure : directory
+
+host::iptables:
+    '01-Postrouting-Local':
+        table:      'nat'
+        chain:      'POSTROUTING'
+        jump:       'MASQUERADE'
+        proto:      'all'
+        outiface:   "eth0"
+        source:     "%{::network_eth0}/16"
+        ensure:     'present'
+
+    '02-Postrouting-All':
+        table:      'nat'
+        chain:      'POSTROUTING'
+        jump:       'MASQUERADE'
+        proto:      'all'
+        ensure:     'present'
+
+    '03-Input-UDP-500':
+        table:      'filter'
+        chain:      'INPUT'
+        action:     'accept'
+        port:       '500'
+        proto:      'udp'
+        ensure:     'present'
+
+    '04-Input-UDP-4500':
+        table:      'filter'
+        chain:      'INPUT'
+        action:     'accept'
+        port:       '4500'
+        proto:      'udp'
+        ensure:     'present'
+
+    '05-Output-UDP-500':
+        table:      'filter'
+        chain:      'OUTPUT'
+        action:     'accept'
+        port:       '500'
+        proto:      'udp'
+        ensure:     'present'
+
+    '06-Output-UDP-4500':
+        table:      'filter'
+        chain:      'OUTPUT'
+        action:     'accept'
+        port:       '4500'
+        proto:      'udp'
+        ensure:     'present'
+
+    '07-mangle-preroute':
+        table:      'mangle'
+        chain:      'PREROUTING'
+        action:     'accept'
+        proto:      'all'
+        source:     "%{::network_eth0}/16"
+        ensure:     'present'
+
+    '08-mangle-input':
+        table:      'mangle'
+        chain:      'INPUT'
+        action:     'accept'
+        proto:      'all'
+        source:     "%{::network_eth0}/16"
+        ensure:     'present'
+
+    '09-mangle-forward':
+        table:      'mangle'
+        chain:      'FORWARD'
+        action:     'accept'
+        proto:      'all'
+        outiface:   "eth0"
+        source:     "%{::network_eth0}/16"
+        ensure:     'present'
+
+    '10-mangle-output':
+        table:      'mangle'
+        chain:      'OUTPUT'
+        action:     'accept'
+        proto:      'all'
+        outiface:   "eth0"
+        source:     "%{::network_eth0}/16"
+        ensure:     'present'
+
+    '11-mangle-postrouting':
+        table:      'mangle'
+        chain:      'POSTROUTING'
+        action:     'accept'
+        proto:      'all'
+        outiface:   "eth0"
+        source:     "%{::network_eth0}/16"
+        ensure:     'present'

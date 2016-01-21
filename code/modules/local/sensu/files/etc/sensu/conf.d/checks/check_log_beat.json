@@ -1,0 +1,17 @@
+{
+    "checks": {
+        "beat_log": {
+            "command": "sudo /etc/sensu/plugins/check-mtime.rb -f /var/log/celery/beat.log -c 3600",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 60,
+            "handlers": [ 
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "celery"
+            ]
+        }
+    }
+}

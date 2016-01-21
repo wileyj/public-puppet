@@ -1,0 +1,52 @@
+---
+redis::packages:
+    - redis.%{::architecture}
+
+redis::services:
+    - redis
+    - redis-server
+
+redis::sudo:
+    'rediscmds':
+        priority : 5
+        content  : "Cmnd_Alias REDISCMDS = /usr/bin/redis-cli, /etc/init.d/redis, /usr/bin/redis-benchmark"
+
+redis::config::port:                        "6379"
+redis::config::listen:                      "127.0.0.1"
+redis::config::timeout:                     "0"
+redis::config::loglevel:                    "notice"
+redis::config::logfile:                     "/var/log/redis/redis.log"
+redis::config::databases:                   "32"
+redis::config::tcp_backlog:                 "65536"
+redis::config::save_one:                    "900 1"
+redis::config::save_two:                    "300 10"
+redis::config::save_three:                  "60 10000"
+redis::config::rdbcompression:              "yes"
+redis::config::dbfilename:                  "redisDB.rdb"
+redis::config::dir:                         '/var/lib/redis/'
+redis::config::masterip:                    "<masterip>"
+redis::config::masterport:                  "<masterport>"
+redis::config::masterauth:                  "password"
+redis::config::slave_serve_stale_data:      "yes"
+redis::config::repl_ping_slave_period:      "10"
+redis::config::repl_timeout:                "60"
+redis::config::requirepass:                 "password"
+redis::config::command_config:              "password1"
+redis::config::command_flushall:            "password2"
+redis::config::command_flushdb:             "password3"
+redis::config::maxclients:                  "128"
+redis::config::maxmemory:                   "14830804992"
+redis::config::maxmemory_policy:            "volatile-lru"
+redis::config::appendonly:                  "yes"
+redis::config::appendfsync:                 "everysec"
+redis::config::no_appendfsync_on_rewrite:   "no"
+redis::config::auto_aof_rewrite_percentage: "100"
+redis::config::auto_aof_rewrite_min_size:   "64"
+redis::config::slowlog_log_slower_than:     "10000"
+redis::config::slowlog_max_len:             "1024"
+redis::config::list_max_ziplist_entries:    "512"
+redis::config::list_max_ziplist_value:      "64"
+redis::config::set_max_intset_entries:      "512"
+redis::config::zset_max_ziplist_entries:    "128"
+redis::config::zset_max_ziplist_value:      "64"
+redis::config::activerehashing:             "yes"

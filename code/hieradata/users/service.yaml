@@ -1,0 +1,17 @@
+---
+service::groups:
+    puppet:
+        ensure: present
+        gid: 52
+        members:[
+            'puppet'
+        ]
+
+service::users:
+    puppet:
+        ensure : present
+        uid    : 52
+        home   : /var/lib/puppet
+        shell  : /sbin/nologin
+        gid    : puppet
+

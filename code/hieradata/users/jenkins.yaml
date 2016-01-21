@@ -1,0 +1,82 @@
+---
+jenkins::groups:
+    jenkins:
+        ensure: present
+        gid: 13
+        members: [
+            'jenkins'
+        ]
+
+    mock:
+        ensure: present
+        gid: 75
+        members: ['mock', 'jenkins']
+
+jenkins::users:
+    jenkins:
+        ensure: present
+        home: /opt/jenkins/home
+        shell: /bin/bash
+        comment: "Jenkins Continuous Build server"
+        uid: 9
+        gid: 13
+
+jenkins::keys:
+    /opt/jenkins:
+        ensure : directory
+        owner : 'jenkins'
+        group : 'jenkins'
+        mode : '0755'
+
+    /opt/jenkins/home:
+        ensure : directory
+        owner : 'jenkins'
+        group : 'jenkins'
+        mode : '0755'
+
+    /opt/jenkins/home/.ssh:
+        ensure: directory
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+
+    /opt/jenkins/home/.ssh/id_rsa:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        source : puppet:///modules/jenkins/opt/jenkins/home/.ssh/id_rsa
+
+    /opt/jenkins/home/.ssh/id_rsa.pub:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        content : "ssh-rsa key"
+
+    /opt/jenkins/home/.ssh/authorized_keys:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        source : puppet:///modules/jenkins/opt/jenkins/home/.ssh/authorized_keys
+
+    /opt/jenkins/home/.ssh/known_hosts:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        source : puppet:///modules/jenkins/opt/jenkins/home/.ssh/known_hosts
+
+    /opt/jenkins/home/.subversion:
+        ensure : directory
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0700'
+
+    /opt/jenkins/home/.subversion/servers:
+        replace: true
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"

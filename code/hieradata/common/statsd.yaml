@@ -1,0 +1,20 @@
+---
+statsd::config::port: 8125
+statsd::config::mgmt_port: 8126
+statsd::config::debug: "false"
+statsd::config::statsd_title: "statsd"
+statsd::config::healthStatus: "up"
+statsd::config::dumpMessages: "false"
+statsd::config::flushInterval: 1000
+statsd::config::percentThreshold:
+    - 5
+    - 90
+    - 95
+    - 99
+statsd::config::flush_counts: "true"
+statsd::config::graphite::legacyNamespace: "false"
+statsd::config::graphite::globalPrefix: "statsd-%{::fqdn}"
+statsd::config::graphite::prefixCounter: "counters"
+statsd::config::graphite::prefixGauge: "gauges"
+statsd::config::graphite::prefixSet: "sets"
+

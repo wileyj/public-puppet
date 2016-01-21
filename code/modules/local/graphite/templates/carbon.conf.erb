@@ -1,0 +1,54 @@
+[cache]
+STORAGE_DIR = <%= scope.lookupvar('carbon_cache_storage_dir') %>
+LOCAL_DATA_DIR = <%= scope.lookupvar('carbon_cache_local_data_dir') %>
+WHITELISTS_DIR = <%= scope.lookupvar('carbon_cache_whitelists_dir') %>
+CONF_DIR = <%= scope.lookupvar('carbon_cache_conf_dir') %>
+LOG_DIR = <%= scope.lookupvar('carbon_cache_log_dir') %>
+PID_DIR = <%= scope.lookupvar('carbon_cache_pid_dir') %>
+USER = <%= scope.lookupvar('carbon_cache_user') %>
+ENABLE_LOGROTATION = True
+MAX_CACHE_SIZE = <%= scope.lookupvar('carbon_cache_max_cache_size') %>
+MAX_UPDATES_PER_SECOND = <%= scope.lookupvar('carbon_cache_max_updates_per_second') %>
+MAX_CREATES_PER_MINUTE = <%= scope.lookupvar('carbon_cache_max_creates_per_minute') %>
+LINE_RECEIVER_INTERFACE = <%= scope.lookupvar('carbon_cache_line_receiver_interface') %>
+LINE_RECEIVER_PORT = <%= scope.lookupvar('carbon_cache_line_receiver_port') %>
+ENABLE_UDP_LISTENER = <%= scope.lookupvar('carbon_cache_enable_udp_listener') %>
+UDP_RECEIVER_INTERFACE = <%= scope.lookupvar('carbon_cache_udp_receiver_interface') %>
+UDP_RECEIVER_PORT = <%= scope.lookupvar('carbon_cache_udp_receiver_port') %>
+PICKLE_RECEIVER_INTERFACE = <%= scope.lookupvar('carbon_cache_pickle_receiver_interface') %>
+PICKLE_RECEIVER_PORT = <%= scope.lookupvar('carbon_cache_pickle_receiver_port') %>
+USE_INSECURE_UNPICKLER = <%= scope.lookupvar('carbon_cache_use_insecure_unpickler') %>
+CACHE_QUERY_INTERFACE = <%= scope.lookupvar('carbon_cache_cache_query_interface') %>
+CACHE_QUERY_PORT = <%= scope.lookupvar('carbon_cache_cache_query_port') %>
+USE_FLOW_CONTROL = <%= scope.lookupvar('carbon_cache_use_flow_control') %>
+LOG_UPDATES = <%= scope.lookupvar('carbon_cache_log_updates') %>
+WHISPER_AUTOFLUSH = <%= scope.lookupvar('carbon_cache_whisper_autoflush') %>
+AMQP_VERBOSE = <%= scope.lookupvar('carbon_cache_amqp_verbose') %>
+AMQP_HOST = <%= scope.lookupvar('carbon_cache_amqp_host') %>
+AMQP_PORT = <%= scope.lookupvar('carbon_cache_amqp_port') %>
+AMQP_VHOST = <%= scope.lookupvar('carbon_cache_amqp_vhost') %>
+AMQP_USER = <%= scope.lookupvar('carbon_cache_amqp_user') %>
+AMQP_PASSWORD = <%= scope.lookupvar('carbon_cache_amqp_password') %>
+AMQP_EXCHANGE = <%= scope.lookupvar('carbon_cache_amqp_exchange') %>
+AMQP_METRIC_NAME_IN_BODY = <%= scope.lookupvar('carbon_cache_amqp_metric_name_in_body') %>
+
+[relay]
+LINE_RECEIVER_INTERFACE = <%= scope.lookupvar('carbon_relay_line_receiver_interface') %>
+LINE_RECEIVER_PORT = <%= scope.lookupvar('carbon_relay_line_receiver_port') %>
+PICKLE_RECEIVER_INTERFACE = <%= scope.lookupvar('carbon_relay_pickle_receiver_interface') %>
+PICKLE_RECEIVER_PORT = <%= scope.lookupvar('carbon_relay_pickle_receiver_port') %>
+RELAY_METHOD = <%= scope.lookupvar('carbon_relay_relay_method') %>
+REPLICATION_FACTOR = <%= scope.lookupvar('carbon_relay_replication_factor') %>
+DESTINATIONS = <%= scope.lookupvar('carbon_relay_destinations') %>
+
+[aggregator]
+LINE_RECEIVER_INTERFACE = <%= scope.lookupvar('carbon_aggregator_line_receiver_interface') %>
+LINE_RECEIVER_PORT = <%= scope.lookupvar('carbon_aggregator_line_receiver_port') %>
+PICKLE_RECEIVER_INTERFACE = <%= scope.lookupvar('carbon_aggregator_pickle_receiver_interface') %>
+PICKLE_RECEIVER_PORT = <%= scope.lookupvar('carbon_aggregator_pickle_receiver_port') %>
+DESTINATIONS = <%= scope.lookupvar('carbon_aggregator_destinations') %>
+REPLICATION_FACTOR =  <%= scope.lookupvar('carbon_aggregator_replication_factor') %>
+MAX_QUEUE_SIZE = <%= scope.lookupvar('carbon_aggregator_max_queue_size') %>
+USE_FLOW_CONTROL = <%= scope.lookupvar('carbon_aggregator_use_flow_control') %>
+MAX_DATAPOINTS_PER_MESSAGE = <%= scope.lookupvar('carbon_aggregator_max_datapoints_per_message') %>
+MAX_AGGREGATION_INTERVALS = <%= scope.lookupvar('carbon_aggregator_max_aggregation_intervals') %>

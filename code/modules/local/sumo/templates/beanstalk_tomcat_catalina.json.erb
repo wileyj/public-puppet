@@ -1,0 +1,16 @@
+{
+	"api.version": "v1",
+	"source": {
+        "name": "Elasticbeanstalk Tomcat Catalina Log",
+        "hostName": "<%= scope.lookupvar('::hostname_full') %>",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "AWS/Elasticbeanstalk/<%= scope.lookupvar('::tag_environment') %>/Slots",
+        "pathExpression": "/var/log/tomcat8/catalina.out"
+    }
+}

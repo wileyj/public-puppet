@@ -1,0 +1,44 @@
+# Managed by puppet
+
+server_host = <%= scope.lookupvar('kolab::params::ldap_hostname') %>
+server_port = <%= scope.lookupvar('kolab::params::ldap_port') %>
+version = 3
+search_base = dc=%3,dc=%2,dc=%1
+scope = sub
+
+domain = ldap:/etc/postfix/ldap/hosted_triplet_mydestination.cf
+
+bind_dn = <%= scope.lookupvar('kolab::params::ldap_service_bind_dn') %>
+bind_pw = <%= scope.lookupvar('kolab::params::ldap_service_bind_pw') %>
+
+<%
+    intmxs = scope.function_nodes_with_class_in_environment([@environment, 'kolab::mx::internal']).sort.uniq
+    backends = scope.function_nodes_with_class_in_environment([@environment, 'kolab::imap::backend']).sort.uniq
+    frontends = scope.function_nodes_with_class_in_environment([@environment, 'kolab::imap::frontend']).sort.uniq
+    mupdates = scope.function_nodes_with_class_in_environment([@environment, 'kolab::imap::mupdate']).sort.uniq
+
+    if intmxs.include?(@fqdn) || classes.include?('kolab::mx::internal') then
+        role = "int-mx"
+    elsif backends.include?(@fqdn) || classes.include?('kolab::imap::backend') then
+        role = "backend"
+    elsif frontends.include?(@fqdn) || classes.include?('kolab::imap::frontend') then
+        role = "frontend"
+    elsif mupdates.include?(@fqdn) || classes.include?('kolab::imap::mupdate') then
+        role = "mupdate"
+    else
+        role = "full"
+    end
+
+    socket_path = scope.lookupvar("kolab::params::imap::imap_socket_path")
+    if !@socket_path then
+        socket_path = "/var/lib/imap/socket"
+    end
+-%>
+query_filter = (&(mail=%s)(|(objectclass=kolabinetorgperson)(objectclass=kolabsharedfolder))<% if role == "backend" then -%>(mailhost=<%= @fqdn -%>)<% end -%>)
+<% if role == "backend" || role == "full" then -%>
+result_attribute = mail
+result_format = lmtp:unix:<%= socket_path -%>/lmtp
+<% else %>
+result_attribute = mailHost
+result_format = smtp:[%s]:25
+<% end %>

@@ -1,0 +1,12 @@
+---
+common::cron:
+  puppet.cron:
+      minute : '*/15'
+      user   : 'root'
+      command: 'sleep `perl -e "print int(rand(420));"` && sh /etc/puppetlabs/scripts/run-puppet -d params-refactor > /dev/null 2>&1'
+
+  clean_mail.cron:
+      minute : '0'
+      hour   : '2'
+      user   : 'root'
+      command: 'if [ `ls /var/spool/clientmqueue | wc -l` -gt 0 ]; then /bin/rm -rf /var/spool/clientmqueue/* > /dev/null 2>&1; fi'

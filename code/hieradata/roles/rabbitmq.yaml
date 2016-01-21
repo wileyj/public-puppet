@@ -1,0 +1,36 @@
+---
+# classes:
+#     - sensu::client
+
+# rabbitmq::package_provider: yum
+# rabbitmq::files:
+#     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6':
+#         source  : puppet:///modules/base/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+#         owner   : 'root'
+#         group   : 'root'
+#         mode    : '0644'
+
+# yumrepos::repos:
+#     'erlang':
+#         descr          : erlang-solutions
+#         baseurl        : http://packages.erlang-solutions.com/rpm/centos/6/$basearch
+#         failovermethod : priority
+#         gpgkey         : http://packages.erlang-solutions.com/debian/erlang_solutions.asc
+#         gpgcheck       : 0
+#         enabled        : 1
+#         priority       : 1
+
+#     'centos-extras':
+#         descr: centos-6-extras
+#         mirrorlist: http://mirrorlist.centos.org/?release=6&arch=$basearch&repo=extras
+#         gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+#         gpgcheck: 0
+#         enabled: 1
+
+#     'centos-base':
+#         descr: CentOS-6-Base
+#         mirrorlist: http://mirrorlist.centos.org/?release=6&arch=$basearch&repo=os
+#         gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+#         gpgcheck: 0
+#         enabled: 1
+

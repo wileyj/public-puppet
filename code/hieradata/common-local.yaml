@@ -1,0 +1,413 @@
+---
+classes:
+    - "::network"
+    - "::yumrepos"
+    - "::base"
+    - "::roles"
+    - "::limits"
+    - "::sysctl::base"
+    - "::ntp"
+    - "::dnsclient"
+    - "::ssh"
+    - "::sudo"
+    - "::puppet"
+    - "::sensu"
+    - "::sumo"
+
+common::python::modules:
+    # - pip
+    - amqp 
+    - anyjson 
+    - backports.ssl-match-hostname 
+    - billiard 
+    - docopt
+    - jedi
+    - jmespath 
+    - kombu 
+    - prompt-toolkit 
+    - ptpython
+    - Pygments
+    - python-dateutil 
+    - pytz 
+    - six 
+    - wcwidth 
+    - wsgiref
+    # - numpy
+
+common::packages:
+    - yum-plugin-priorities
+    - deltarpm
+    - rubygem-rgen
+    - augeas-libs
+    - ruby-augeas
+    - rubygem-json_pure
+    - ruby-libs
+    - rubygems
+    - rubygem-bigdecimal
+    - rubygem-psych
+    - perl-libwww-perl
+    - denyhosts
+    - strace
+    - nmap
+    - sysstat
+    - coreutils
+    - lsof
+    - telnet
+    - at
+    - nc
+    - bc
+    - tcsh
+    - traceroute
+    - tcpdump
+    - binutils
+    - bzip2
+    - ruby-shadow
+    - git
+    - rsync
+    - ruby
+    - bash
+    - python27-pip
+    - python27-tools
+    - python27-setuptools
+    # - python27-numpy
+    - curl
+    - bind-utils
+    - gcc
+    - perl-Proc-ProcessTable
+
+common::services::on:
+    - denyhosts
+    # - statsd
+    # - collectd
+
+common::services::off:
+    - apcid
+    - anacron
+    - atd
+    - conman
+    - cups
+    - dhcdbd
+    - dund
+    - firstboot 
+    - gpm
+    - haldaemon
+    - hidd
+    - ip6tables
+    - irda
+    - kudzu
+    - mcstrans
+    - mdmonitor
+    - mdmpd
+    - messagebus
+    - multipathd
+    - netconsole
+    - netfs
+    - netplugd
+    - nfs
+    - nfslock
+    - nscd
+    - oddjobd 
+    - pand
+    - pcscd
+    - portmap
+    - psacct
+    - rdisc
+    - readahead_early
+    - readahead_later
+    - restorecond
+    - rpcgssd
+    - rpcidmapd
+    - rpcsvcgssd
+    - saslauthd
+    - sendmail
+    - smartd
+    - wpa_supplicant
+    - ypbind
+    - yum-updatesd
+
+common::cron:
+  # puppet.cron:
+  #     minute : '*/15'
+  #     user   : 'root'
+  #     command: 'sleep `perl -e "print int(rand(420));"` && sh /etc/puppetlabs/scripts/run-puppet -d params-refactor > /dev/null 2>&1'
+
+  clean_mail.cron:
+      minute : '0'
+      hour   : '2'
+      user   : 'root'
+      command: 'if [ `ls /var/spool/clientmqueue | wc -l` -gt 0 ]; then /bin/rm -rf /var/spool/clientmqueue/* > /dev/null 2>&1; fi'
+
+common::sudo:
+    networkcmds:
+        priority : 1
+        sudo_config_dir:  /etc/sudoers.d/
+        content  : "# File Maintained by puppet. Do Not Edit Manually\nCmnd_Alias NETWORKCMDS = /bin/netstat, /usr/sbin/ifconfig, /usr/sbin/arp, /usr/sbin/tcpdump, /usr/sbin/iptables --list, /bin/traceroute"
+
+    devcmds:
+        priority : 1
+        sudo_config_dir:  /etc/sudoers.d/
+        content  : "# File Maintained by puppet. Do Not Edit Manually\nCmnd_Alias DEVCMDS = /etc/init.d/passenger, /etc/init.d/mysql, /etc/init.d/apache, !/usr/bin/sudo,!/bin/su,!/bin/vi /etc/sudoers,!/usr/sbin/visudo,!/bin/bash,!/bin/csh,!/bin/ksh,!/bin/sh,!/bin/tcsh,!/bin/zsh"
+
+    devs:
+        priority : 2
+        sudo_config_dir:  /etc/sudoers.d/
+        content  : "# File Maintained by puppet. Do Not Edit Manually\n%devs ALL=(ALL) NOPASSWD:DEVCMDS, NETWORKCMDS"
+
+    admins:
+        priority : 2
+        sudo_config_dir:  /etc/sudoers.d/
+        content  : "# File Maintained by puppet. Do Not Edit Manually\n%admins ALL=(ALL) NOPASSWD:ALL"
+
+    cloud-init:
+        priority : 2
+        sudo_config_dir:  /etc/sudoers.d/
+        content  : "# File Maintained by puppet. Do Not Edit Manually\nec2-user ALL=(ALL) NOPASSWD:ALL"
+
+common::files:
+    '/root/.ssh/puppet':
+        source  : puppet:///modules/base/root/.ssh/puppet
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0600'
+
+    '/root/.ssh/known_hosts':
+        source  : puppet:///modules/base/root/.ssh/known_hosts
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/hosts.allow':
+        source  : puppet:///modules/base/etc/hosts.allow
+        replace : true
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/sudoers.d/local':
+        ensure  : directory
+        replace : false
+        owner   : 'root'
+        group   : 'root'
+        recurse : false
+
+    '/etc/sumo.d':
+        ensure  : directory
+        replace : false
+        owner   : 'root'
+        group   : 'root'
+        recurse : false
+
+    '/etc/crontab':
+        source  : puppet:///modules/base/etc/crontab
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/root/.aws':
+        ensure  : absent
+
+    '/home/ec2-user/.aws':
+        ensure  : absent
+
+    '/etc/yum.repos.d/amzn-main.repo':
+        source  : puppet:///modules/base/etc/yum.repos.d/amzn-main.repo
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/yum.repos.d/amzn-nosrc.repo':
+        source  : puppet:///modules/base/etc/yum.repos.d/amzn-nosrc.repo
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/yum.repos.d/amzn-preview.repo':
+        source  : puppet:///modules/base/etc/yum.repos.d/amzn-preview.repo
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/yum.repos.d/amzn-updates.repo':
+        source  : puppet:///modules/base/etc/yum.repos.d/amzn-updates.repo
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/u':
+        ensure  : directory
+        replace : false
+        owner   : 'root'
+        group   : 'root'
+        recurse : false
+
+    '/u/log':
+        ensure  : directory
+        replace : false
+        owner   : 'root'
+        group   : 'root'
+        recurse : true
+
+    '/u/logs':
+        ensure  : link
+        replace : true
+        target  : /u/log
+
+    '/etc/puppetlabs/code/environments/production/modules':
+        ensure  : link
+        replace : true
+        target  : /etc/puppetlabs/code/modules
+
+    '/etc/puppetlabs/code/environments/dev/modules':
+        ensure  : link
+        replace : true
+        target  : /etc/puppetlabs/code/modules
+
+    '/etc/puppetlabs/code/environments/staging/modules':
+        ensure  : link
+        replace : true
+        target  : /etc/puppetlabs/code/modules
+
+    '/opt':
+        ensure  : directory
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/scripts':
+        ensure  : directory
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/scripts/git.sh':
+        source  : puppet:///modules/base/opt/scripts/git.sh
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/etc/rpm/macros':
+        source  : puppet:///modules/base/etc/rpm/macros
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/logrotate.conf':
+        source  : puppet:///modules/base/etc/logrotate.conf
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+        replace : true
+
+    '/etc/bashrc':
+        source  : puppet:///modules/base/etc/bashrc
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    # '/sumo/sumo.json':
+    #     source : "puppet:///files/sumo/sumo.json"
+    #     ensure  : present
+    #     owner   : 'root'
+    #     mode    : '0755'
+    #     group   : 'root'
+
+
+    '/root/.bash_profile':
+        source  : puppet:///modules/base/root/.bash_profile
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/motd':
+        source  : puppet:///modules/base/etc/motd
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/pki/tls/certs/ca-bundle.crt':
+        source  : puppet:///modules/base/etc/pki/tls/certs/ca-bundle.crt
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/etc/pki/tls/cert.pem':
+        ensure  : link
+        target  : /etc/pki/tls/certs/ca-bundle.crt
+        require : File[/etc/pki/tls/certs/ca-bundle.crt]
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+    '/usr/bin/sleeper':
+        source  : puppet:///modules/base/usr/bin/sleeper
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/usr/bin/firstboot':
+        source  : puppet:///modules/base/usr/bin/firstboot
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/etc/rc.d/rc.local':
+        source  : puppet:///modules/base/etc/rc.d/rc.local
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/denyhosts/bin/denyhosts_ctl':
+        source  : puppet:///modules/base/opt/denyhosts/bin/denyhosts_ctl
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/denyhosts/bin/denyhosts.py':
+        source  : puppet:///modules/base/opt/denyhosts/bin/denyhosts.py
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/etc/init.d/denyhosts':
+        source  : puppet:///modules/base/etc/init.d/denyhosts
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+        replace : true
+
+    '/opt/denyhosts':
+        ensure  : directory
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/denyhosts/etc':
+        ensure  : directory
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/denyhosts/bin':
+        ensure  : directory
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/denyhosts/data':
+        ensure  : directory
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0755'
+
+    '/opt/denyhosts/data/allowed-hosts':
+        source  : puppet:///modules/base/opt/denyhosts/data/allowed-hosts
+        owner   : 'root'
+        group   : 'root'
+        mode    : '0644'
+
+#    '/etc/init.d/statsd':
+#        source  : puppet:///modules/base/etc/init.d/statsd
+#        owner   : 'root'
+#        group   : 'root'
+#        mode    : '0755'
+#        replace : true

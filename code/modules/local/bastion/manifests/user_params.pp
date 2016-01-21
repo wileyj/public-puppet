@@ -1,0 +1,15 @@
+class bastion::user_params{
+    $jail_group                = hiera('bastion::jail::group',{})
+    $admin_users               = hiera('admin::users',{})
+    $admin_group               = hiera('admin::groups',{})
+    $admin_keys                = hiera('admin::keys',{})
+    $dev_users                 = hiera('dev::users',{})
+    $dev_group                 = hiera('dev::groups',{})
+    $dev_keys                  = hiera('dev::keys',{})
+    $analytics_users           = hiera('analytics::users',{})
+    $analytics_group           = hiera('analytics::groups',{})
+    $analytics_keys            = hiera('analytics::keys',{})
+    $celery_users              = hiera('celery::users',{})
+    $celery_group              = hiera('celery::groups',{})
+    $celery_keys               = hiera('celery::keys',{})
+}

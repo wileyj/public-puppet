@@ -1,0 +1,9 @@
+name         'Services'
+summary      'Services Module'
+description  'This is the Services Module'
+version      '0.0.1'
+author       'wileyj'
+license      'Apache 2.0'
+source       'https://github.com/wileyj/public-puppet/code/modules/local/services'
+project_page 'https://github.com/wileyj/public-puppet/code/modules/local/services'
+

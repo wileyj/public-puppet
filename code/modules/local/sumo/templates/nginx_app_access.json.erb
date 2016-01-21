@@ -1,0 +1,16 @@
+{
+    "api.version": "v1",
+    "source": {
+        "name": "Nginx Access Log",
+        "hostName": "<%= scope.lookupvar('::hostname_full') %>",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "Service/<%= scope.lookupvar('::tag_environment') %>/nginx",
+        "pathExpression": "/var/log/nginx/access_log"
+    }
+}

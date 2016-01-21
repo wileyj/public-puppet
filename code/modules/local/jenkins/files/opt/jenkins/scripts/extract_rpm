@@ -1,0 +1,14 @@
+#!/bin/bash
+
+SRC=$1
+DST=$2
+SHORT=`basename $1|perl -p -i -e 's/-\d+.*//g'`
+echo "Making: $DST/$SHORT/{SRPMS,SPECS,BUILD,SOURCES}................"
+mkdir -p $DST/$SHORT/{SRPMS,SPECS,BUILD,SOURCES}
+CUR=`pwd`
+cd $DST/$SHORT
+echo "Extracting src.rpm contents......."
+rpm2cpio $SRC | cpio -i -d -m -v 
+find . -maxdepth 1 -type f -name *.spec -exec mv {} SPECS/$SHORT.spec \;
+find . -maxdepth 1 -type f -exec mv {} SOURCES/ \;
+cd $CUR

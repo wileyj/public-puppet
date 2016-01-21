@@ -1,0 +1,125 @@
+---
+bastion::classes:
+    - firewall
+
+# bastion::firewall::rules:
+#     '01-Local-ICMP':
+#         table:      'input'
+#         chain:      'INPUT'
+#         jump:       'ACCEPT'
+#         proto:      'icmp'
+#         outiface:   "eth0"
+#         source:     "%{::network_eth0}/16"
+#         ensure:     'present'
+
+#     '02-External-ICMP':
+#         table:      'input'
+#         chain:      'INPUT'
+#         jump:       'DROP'
+#         proto:      'icmp'
+#         outiface:   "eth0"
+#         ensure:     'present'
+
+bastion::jail::group:
+    jailed:
+        ensure: present
+        gid: 1502
+        members: [
+            'user1'
+        ]
+
+bastion::sysctl:
+    net.ipv4.conf.all.accept_redirects : { value: 1 }
+
+bastion::packages:
+    - bind-libs
+    - openssl
+    - krb5-libs
+    - glibc
+    - zlib
+    - keyutils
+    - libselinux
+    - libsepol
+    - ncurses
+    - fipscheck
+    - nspr
+    - iputils
+    - perl-URI
+    - perl-Convert-ASN1
+    - perl-Authen-SASL
+    - perl-Net-SSLeay
+    - perl-GSSAPI
+    - perl-Text-Template
+    - perl-XML-Simple
+    - zsh
+
+bastion::services::off:
+    - apcid
+    - anacron
+    - atd
+    - conman
+    - cups
+    - dhcdbd
+    - dund
+    - firstboot 
+    - gpm
+    - haldaemon
+    - hidd
+    - ip6tables
+    - irda
+    - kudzu
+    - mcstrans
+    - mdmonitor
+    - mdmpd
+    - messagebus
+    - multipathd
+    - netconsole
+    - netfs
+    - netplugd
+    - nfs
+    - nfslock
+    - nscd
+    - oddjobd 
+    - pand
+    - pcscd
+    - portmap
+    - psacct
+    - rdisc
+    - readahead_early
+    - readahead_later
+    - restorecond
+    - rpcgssd
+    - rpcidmapd
+    - rpcsvcgssd
+    - saslauthd
+    - sendmail
+    - smartd
+    - wpa_supplicant
+    - ypbind
+    - yum-updatesd
+
+bastion::files:
+    /opt/scripts/chroot_setup.pl:
+        owner   : 'root'
+        group   : 'root'
+        ensure  : present
+        replace : true
+        mode    : '0755'
+        source  : puppet:///modules/bastion/opt/scripts/chroot_setup.pl
+
+    /export:
+        ensure : directory
+
+    /export/jail:
+        ensure : directory
+
+    /export/jail/etc:
+        ensure : directory
+
+bastion::cron::job:
+    chroot.cron:
+        minute : '00'
+        hour   : '*/2'
+        user   : 'root'
+        command: '/bin/rm -rf /etc/sysconfig/chroot_setup 2>&1'
+

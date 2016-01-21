@@ -1,0 +1,32 @@
+---
+denyhosts::hosts_deny:                 /etc/hosts.deny
+denyhosts::block_service:              all
+denyhosts::work_dir:                   /opt/denyhosts/data
+denyhosts::suspicious_login_report:    NO
+denyhosts::lock_file:                  /var/lock/subsys/denyhosts
+denyhosts::secure_log:                 /var/log/messages
+denyhosts::deny_threshold::invalid:    5
+denyhosts::deny_threshold::valid:      5
+denyhosts::deny_threshold::root:       1
+denyhosts::deny_threshold::restricted: 1
+denyhosts::hostname_lookup:            YES
+denyhosts::syslog_report:              false
+denyhosts::age_reset_valid:            2d
+denyhosts::age_reset_root:             5y
+denyhosts::age_reset_invalid:          10d
+denyhosts::reset_on_success:           true
+denyhosts::reset_valid:                2d
+denyhosts::daemon::log:                /var/log/denyhosts
+denyhosts::daemon::sleep:              30s
+denyhosts::daemon::purge:              1h
+denyhosts::daemon::log:                /var/log/denyhosts
+denyhosts::daemon::log_time_format:    "%b %d %I:%M:%S"
+denyhosts::daemon::log_message_format: "%(asctime)s -  %(name)-12s: %(levelname)-8s %(message)s"
+denyhosts::sync::server:               http://xmlrpc.denyhosts.net:9911
+denyhosts::sync::interval:             1h
+denyhosts::sync::upload:               no
+denyhosts::sync::download:             yes
+denyhosts::sync::download_threshold:   10
+denyhosts::sync::download_resiliency:  2d
+denyhosts::purge::deny:                5y
+denyhosts::purge::threshold:           0

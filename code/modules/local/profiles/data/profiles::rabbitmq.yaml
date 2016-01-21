@@ -1,0 +1,5 @@
+---
+profiles::rabbitmq::classes:
+    - rabbitmq
+    - rabbitmq::management
+    # - sensu::client

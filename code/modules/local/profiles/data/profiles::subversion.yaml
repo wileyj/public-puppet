@@ -1,0 +1,4 @@
+---
+profiles::subversion::classes:
+    - "::lvm"
+    - "::%{server_role}"

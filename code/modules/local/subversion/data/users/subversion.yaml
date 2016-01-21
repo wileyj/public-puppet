@@ -1,0 +1,94 @@
+---
+subversion::groups:
+    svnusers:
+        ensure : present
+        gid    : 501
+        members: [
+            'user1',
+            'user2',
+            'jenkins'
+        ]
+
+subversion::users:
+    user1:
+        ensure : present
+        home   : /home/svnusers/user1
+        shell  : /bin/bash
+        uid    : 1501
+        gid    : 501
+        groups : svnusers
+
+    user2:
+        ensure : present
+        home   : /home/svnusers/user2
+        shell  : /bin/bash
+        uid    : 1502
+        gid    : 501
+        groups : svnusers
+
+
+subversion::keys:
+    /home/svnusers/user1:
+        ensure : directory
+        owner  : 'user1'
+        group  : 'svnusers'
+        mode   : '0755'
+
+    /home/svnusers/user1/.ssh:
+        ensure : directory
+        owner  : 'user2'
+        group  : 'svnusers'
+        mode   : '0700'
+
+    /home/svnusers/user1/.subversion:
+        ensure : directory
+        owner  : 'user1'
+        group  : 'svnusers'
+        mode   : '0700'
+
+    /home/svnusers/user1/.ssh/authorized_keys:
+        replace: true
+        owner  : 'user1'
+        group  : 'svnusers'
+        mode   : '0600'
+        content: "ssh-rsa public key"
+
+    /home/svnusers/user1/.subversion/servers:
+        replace: true
+        owner  : 'user1'
+        group  : 'svnusers'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"
+
+    /home/svnusers/user2:
+        ensure : directory
+        owner  : 'user2'
+        group  : 'svnusers'
+        mode   : '0755'
+
+    /home/svnusers/user2/.ssh:
+        ensure : directory
+        owner  : 'user2'
+        group  : 'svnusers'
+        mode   : '0700'
+
+    /home/svnusers/user2/.subversion:
+        ensure : directory
+        owner  : 'user2'
+        group  : 'svnusers'
+        mode   : '0700'
+
+    /home/svnusers/user2/.ssh/authorized_keys:
+        replace: true
+        owner  : 'user2'
+        group  : 'svnusers'
+        mode   : '0600'
+        content: "ssh-rsa public key"
+
+    /home/svnusers/user2/.subversion/servers:
+        replace: true
+        owner  : 'user2'
+        group  : 'svnusers'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"
+

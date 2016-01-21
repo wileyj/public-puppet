@@ -1,0 +1,74 @@
+---
+tomcat::packages:
+    - tomcat
+
+tomcat::groups:
+    tomcat:
+        ensure: present
+        gid: 480
+
+tomcat::users:
+    tomcat:
+        ensure: present
+        home: /opt/tomcat
+        shell: /sbin/nologin
+        uid: 480
+        gid: 480
+
+tomcat::services:
+    - tomcat
+
+tomcat::sudo::conf:
+    tomcat:
+        sudo_config_dir:  /etc/sudoers.d
+        content  : "# sudoers::tomcat - This file is maintained by puppet\n#line 2"
+
+tomcat::cron::job:
+    tomcat-roll_logs.cron:
+        minute : '00'
+        hour   : '06'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /opt/scripts/tomcat/roll-logs.sh > /var/tmp/tomcat_roll-logs.out 2>&1'
+
+    tomcat-restart.cron:
+        minute : '15'
+        hour   : '06'
+        user   : 'root'
+        command: '/usr/bin/sleeper 30 && /etc/init.d/tomcat restart > /var/tmp/tomcat_restart.out 2>&1'
+
+tomcat::files:
+    /u/log/tomcat:
+        replace: false
+        owner  : tomcat
+        group  : tomcat
+        recurse: true
+        ignore : "*.pid"
+        ensure : directory
+
+    /opt/scripts/tomcat:
+        source : 'puppet:///modules/tomcat/opt/scripts/tomcat'
+        recurse: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0775'
+
+    /etc/init.d/tomcat:
+        source : 'puppet:///modules/base/etc/init.d/tomcat'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0775'
+        replace : true
+
+    /etc/logrotate.d/tomcat:
+        source : 'puppet:///modules/base/etc/logrotate.d/tomcat8'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+        replace : true
+
+    /etc/init.d/tomcat.include:
+        source : 'puppet:///modules/tomcat/etc/init.d/tomcat.include'
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0775'
+        replace : true

@@ -1,0 +1,166 @@
+---
+grafana::files:
+    /root/grafana.sql:
+        ensure : present
+        owner  : 'root' 
+        group  : 'root'
+        mode   : '0600'
+        replace: true 
+        source : 'puppet:///modules/grafana/root/grafana.sql'
+
+    /etc/init.d/grafana:
+        source : 'puppet:///modules/base/etc/init.d/grafana'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0755'
+        ensure : present
+        #before : Service["graphite"]
+        #notify : Service["graphite"]
+
+grafana::packages:
+    - golang
+    - golang-src
+
+grafana::golang::modules:
+    - github.com/grafana/grafana
+
+grafana::nodejs::modules:
+    - grunt-cli
+
+grafana::config::location:                    "/etc/grafana/defaults.ini"
+
+# [paths]
+grafana::paths::data:                         "/var/lib/grafana"
+grafana::paths::logs:                         "/var/log/grafana"
+
+# [server]
+grafana::server::protocol:                    "http"
+grafana::server::http_addr:                   ""
+grafana::server::http_port:                   3000
+grafana::server::domain:                      "localhost"
+grafana::server::enforce_domain:              false
+grafana::server::root_url:                    "%(protocol)s://%(domain)s:%(http_port)s/"
+grafana::server::router_logging:              false
+grafana::server::static_root_path:            "public"
+grafana::server::enable_gzip:                 true
+grafana::server::cert_file:                   ""
+grafana::server::cert_key:                    ""
+
+# [database]
+grafana::database::type:                      "postgres"
+grafana::database::host:                      "127.0.0.1:5432"
+grafana::database::name:                      "grafana"
+grafana::database::user:                      "grafana"
+grafana::database::password:                  "password"
+grafana::database::ssl_mode:                  "disable"
+grafana::database::path:                      "grafana.db"
+
+# [session]
+grafana::session::provider:                   "postgresql"
+grafana::session::provider_config:            "user=grafana password=password host=localhost port=5432 dbname=grafana sslmode=disable"
+grafana::session::cookie_name:                "grafana_sess"
+grafana::session::cookie_secure:              false
+grafana::session::session_life_time:          86400
+
+# [analytics]
+grafana::analytics::reporting_enabled:        false
+grafana::analytics::google_analytics_ua_id:   ""
+grafana::analytics::google_tag_manager_id:    ""
+
+# [security]
+grafana::security::admin_user:                "admin"
+grafana::security::admin_password:            "password"
+grafana::security::secret_key:                "secret_key"
+grafana::security::login_remember_days:       14
+grafana::security::cookie_username:           "grafana_user"
+grafana::security::cookie_remember_name:      "grafana_remember"
+grafana::security::disable_gravatar:          false
+
+# [users]
+grafana::users::allow_sign_up:                false
+grafana::users::allow_org_create:             false
+grafana::users::auto_assign_org:              true
+grafana::users::auto_assign_org_role:         "Viewer"
+grafana::users::verify_email_enabled:         false
+
+# [auth.anonymous]
+grafana::auth::anonymous::enabled:            false
+grafana::auth::anonymous::org_name:           "Main Org."
+grafana::auth::anonymous::org_role:           "Viewer"
+
+# [auth.github]
+grafana::auth::github::enabled:               false
+grafana::auth::github::allow_sign_up:         false
+grafana::auth::github::client_id:             "some_id"
+grafana::auth::github::client_secret:         "some_secret"
+grafana::auth::github::scopes:                "user:email"
+grafana::auth::github::auth_url:              "https://github.com/login/oauth/authorize"
+grafana::auth::github::token_url:             "https://github.com/login/oauth/access_token"
+grafana::auth::github::api_url:               "https://api.github.com/user"
+grafana::auth::github::team_ids:              ""
+grafana::auth::github::allowed_organizations: ""
+
+# [auth.google]
+grafana::auth::google::enabled:               false
+grafana::auth::google::allow_sign_up:         false
+grafana::auth::google::client_id:             "some_client_id"
+grafana::auth::google::client_secret:         "some_client_secret"
+grafana::auth::google::scopes:                "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+grafana::auth::google::auth_url:              "https://accounts.google.com/o/oauth2/auth"
+grafana::auth::google::token_url:             "https://accounts.google.com/o/oauth2/token"
+grafana::auth::google::api_url:               "https://www.googleapis.com/oauth2/v1/userinfo"
+grafana::auth::google::allowed_domains:       ""
+
+# [auth.basic]
+grafana::auth::basic::enabled:                true
+
+# [smtp]
+grafana::smtp::enabled:                       false
+grafana::smtp::host:                          "localhost:25"
+grafana::smtp::user:                          ""
+grafana::smtp::password:                      ""
+grafana::smtp::cert_file:                     ""
+grafana::smtp::key_file:                      ""
+grafana::smtp::skip_verify:                   false
+grafana::smtp::from_address:                  "admin@grafana.localhost"
+
+# [emails]
+grafana::emails::welcome_email_on_sign_up:    true
+grafana::emails::templates_pattern:           "emails/*.html"
+
+# [log]
+grafana::log::mode:
+    - console
+    - file
+grafana::log::buffer_len:                     10000
+grafana::log::level:                          "Info"
+
+# [log.console]
+grafana::logconsole::level:                   ""
+
+# [log.file]
+grafana::logfile::level:                      ""
+grafana::logfile::rotate:                     true
+grafana::logfile::max_lines:                  1000000
+grafana::logfile::max_lines_shift:            28
+grafana::logfile::daily_rotate:               true
+grafana::logfile::max_days:                   7
+
+# amqp
+grafana::amqp::enabled:                       false
+grafana::amqp::url:                           "amqp://platform-rabbitmq-001.p.use1.local.com/"
+grafana::amqp::exchange:                      "grafana_events"
+
+# dashboard
+grafana::dashboards::enabled:                 true
+grafana::dashboards::path:                    "/var/lib/grafana/dashboards"
+
+# grafana::sudo::conf
+# grafana::cron::job
+# grafana::sysctl
+# grafana::services
+
+
+
+

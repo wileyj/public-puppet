@@ -1,0 +1,12 @@
+{
+    "checks": {
+        "redis_metric": {
+            "type": "metric",
+            "handlers": ["graphite_line_tcp"],
+            "command": "/etc/sensu/plugins/redis-graphite.rb --scheme stats-:::name:::.redis",
+            "auto_tag_host": "yes",
+            "interval": 30,
+            "subscribers": ["sensu_server","redis"]
+        }
+    }
+}

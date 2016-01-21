@@ -1,0 +1,18 @@
+---
+redis::lvm::volume_group: 'rdbvg'
+redis::lvm::physical_volumes: '/dev/sdf'
+redis::lvm::logical_volumes: 'redis'
+redis::lvm::logical_volumes::size: '10G'
+redis::lvm::logical_volumes::mountpath: '/var/lib/redis'
+redis::lvm::logical_volumes::fstype: 'ext4'
+redis::lvm::logical_volumes::options: 'defaults,noatime,noexec,discard'
+
+lvm::volume_groups:
+   'rdbvg':
+       physical_volumes:
+           - /dev/sdf
+       logical_volumes:
+           redis:
+               size: 5G
+               mountpath: /var/lib/redis
+               mountpath_require: true

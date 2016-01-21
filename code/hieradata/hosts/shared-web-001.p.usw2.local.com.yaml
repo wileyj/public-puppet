@@ -1,0 +1,36 @@
+---
+
+host::packages:
+    - "::nginx"
+
+host::files:
+    '/u/docroot/blackdiamondcasino.com':
+        ensure : directory
+        replace: false
+        owner:   'nginx' 
+        group:   'nginx' 
+        recurse: true
+
+    '/var/log/nginx/blackdiamondcasino.com':
+        replace: false
+        recurse: false
+        owner  : 'root'
+        group  : 'root'
+        ensure : directory
+
+    '/etc/nginx/sites-available/blackdiamondcasino.com':
+        source : 'puppet:///modules/nginx/etc/nginx/sites-available/blackdiamondcasino.com'
+        replace: true
+        owner  : 'root'
+        group  : 'root'
+        mode   : '0644'
+
+    '/etc/nginx/sites-enabled/blackdiamondcasino.com':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/blackdiamondcasino.com'
+
+common::cron:
+ websync.cron:
+     minute : '*/2'
+     user   : 'root'
+     command: 'aws s3 cp s3://netflix-blackdiamondcasino/ /u/docroot/blackdiamondcasino.com --recursive'

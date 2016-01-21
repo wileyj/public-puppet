@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FLAG="/var/log/firstboot.log"
+if [ ! -f $FLAG ]; then
+   /etc/puppetlabs/scripts/run-puppet
+   /bin/touch $FLAG
+fi

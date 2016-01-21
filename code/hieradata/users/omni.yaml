@@ -1,0 +1,275 @@
+---
+sensu::groups:
+    sensu:
+        ensure: present
+        gid:    489
+        members: sensu
+
+sensu::users:
+    sensu:
+        ensure: present
+        home:   /etc/sensu
+        shell: /bin/bash
+        uid:    489
+        gid:    489
+
+service::groups:
+    puppet:
+        ensure: present
+        gid: 52
+        members: puppet 
+
+service::users:
+    puppet:
+        ensure : present
+        uid    : 52
+        home   : /var/lib/puppet
+        shell  : /sbin/nologin
+        gid    : puppet
+
+admin::groups:
+    admins:
+        ensure: present
+        gid: 25
+        members: [
+            'admin1'
+        ]
+
+admin::users:
+    admin1:
+        ensure:  present
+        home:    /home/admin1
+        shell:   /bin/bash
+        comment: "Admin 1"
+        uid:     901
+        gid:     25
+
+admin::keys:
+    /home/admin1:
+        ensure : directory
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0755'
+
+    /home/admin1/.ssh:
+        ensure: directory
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/admin1/.ssh/authorized_keys:
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0600'
+        replace: true
+        content: "ssh-rsa key"
+
+    /home/admin1/.subversion:
+        ensure : directory
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/admin1/.subversion/servers:
+        replace: true
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = admin1"
+
+analytics::groups:
+    analytics:
+        ensure: present
+        gid: 1100
+        members: [
+            'user1'
+        ]
+
+analytics::users:
+    user1:
+        ensure:  present
+        home:    /home/user1
+        shell:   /bin/bash
+        comment: "user1"
+        uid:     1101
+        gid:     1100
+
+analytics::keys:
+    /home/user1:
+        ensure : directory
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0755'
+
+    /home/user1/.ssh:
+        ensure: directory
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/user1/.ssh/authorized_keys:
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0600'
+        replace: true
+        content: "ssh-rsa key"
+
+    /home/user1/.subversion:
+        ensure : directory
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/user1/.subversion/servers:
+        replace: true
+        owner  : 'user1'
+        group  : 'admins'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"
+
+
+dev::groups:
+    devs:
+        ensure: present
+        gid: 1010
+        members: [
+            'user2'
+        ]
+
+dev::users:
+    user2:
+        ensure:  present
+        home:    /home/user2
+        shell:   /bin/bash
+        comment: "Tommy Leung"
+        uid:     1010
+        gid:     1010
+
+
+dev::keys:
+    /home/user2:
+        ensure : directory
+        owner : 'user2'
+        group : 'devs'
+        mode : '0755'
+
+    /home/user2/.ssh:
+        ensure: directory
+        owner  : 'user2'
+        group  : 'devs'
+        mode   : '0700'
+
+    /home/user2/.subversion:
+        ensure : directory
+        owner  : 'user2'
+        group  : 'devs'
+        mode   : '0700'
+
+    /home/user2/.ssh/authorized_keys:
+        owner  : 'user2'
+        group  : 'devs'
+        mode   : '0600'
+        replace: true
+        content: "ssh-rsa user2"
+
+    /home/user2/.subversion/servers:
+        replace: true
+        owner  : 'tommy'
+        group  : 'devs'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"
+
+jenkins::groups:
+    jenkins:
+        ensure: present
+        gid: 13
+        members: jenkins
+
+    mock:
+        ensure: present
+        gid: 75
+        members: ['mock', 'jenkins']
+
+jenkins::users:
+    jenkins:
+        ensure: present
+        home: /opt/jenkins/home
+        shell: /bin/bash
+        comment: "Jenkins Continuous Build server"
+        uid: 9
+        gid: 13
+
+jenkins::keys:
+    /opt/jenkins:
+        ensure : directory
+        owner : 'jenkins'
+        group : 'jenkins'
+        mode : '0755'
+
+    /opt/jenkins/home:
+        ensure : directory
+        owner : 'jenkins'
+        group : 'jenkins'
+        mode : '0755'
+
+    /opt/jenkins/home/.ssh:
+        ensure: directory
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+
+    /opt/jenkins/home/.ssh/id_rsa:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        source : puppet:///modules/jenkins/opt/jenkins/home/.ssh/id_rsa
+
+    /opt/jenkins/home/.ssh/id_rsa.pub:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        content : "ssh-rsa key"
+
+    /opt/jenkins/home/.ssh/authorized_keys:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        source : puppet:///modules/jenkins/opt/jenkins/home/.ssh/authorized_keys
+
+    /opt/jenkins/home/.ssh/known_hosts:
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        replace: true
+        source : puppet:///modules/jenkins/opt/jenkins/home/.ssh/known_hosts
+
+    /opt/jenkins/home/.subversion:
+        ensure : directory
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0700'
+
+    /opt/jenkins/home/.subversion/servers:
+        replace: true
+        owner  : 'jenkins'
+        group  : 'jenkins'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"
+
+nginx::groups:
+    nginx:
+        ensure: present
+        gid: 495
+
+nginx::users:
+    nginx:
+        ensure: present
+        home: /etc/nginx
+        shell: /sbin/nologin
+        uid: 495
+        gid: 495
+
+

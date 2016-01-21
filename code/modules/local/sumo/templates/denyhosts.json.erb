@@ -1,0 +1,16 @@
+{
+    "api.version": "v1",
+    "source": {
+        "name": "Denyhosts",
+        "hostName": "<%= scope.lookupvar('::hostname_full') %>",
+        "sourceType": "LocalFile",
+        "automaticDateParsing": true,
+        "multilineProcessingEnabled": false,
+        "useAutolineMatching": true,
+        "forceTimeZone": false,
+        "timeZone": "America/New_York",
+        "defaultDateFormat": "dd/MMM/yyyy HH:mm:ss",
+        "category": "OS/Linux/Security",
+        "pathExpression": "/var/log/denyhosts"
+    }
+}

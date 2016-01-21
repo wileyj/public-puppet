@@ -1,0 +1,20 @@
+---
+puppet::common::codedir:      /etc/puppetlabs/code
+puppet::common::confdir:      $codedir/hieradata
+puppet::common::hiera_config: $codedir/hiera.yaml
+puppet::common::env_path:     $codedir/environments
+puppet::common::environment:  'production'
+puppet::common::fact_path:    $codedir/modules/facts/lib/facter/
+puppet::common::var_dir:      /var/lib/puppet
+puppet::common::log_dir:      /var/log/puppet
+puppet::common::run_dir:      /var/run/puppet
+puppet::common::listen:       false
+puppet::common::summarize:    true
+puppet::common::param_check:  true
+puppet::common::report:       false
+puppet::common::pluginsync:   false
+puppet::common::log_level:    info
+#puppet::common::parser:       future
+puppet::common::modulepath:   
+    - '$codedir/environments/production/modules/public:'
+    - '$codedir/environments/production/modules/local'

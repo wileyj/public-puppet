@@ -1,0 +1,32 @@
+HOSTS_DENY                            = <%= scope.lookupvar('denyhosts_hosts_deny') %>
+BLOCK_SERVICE                         = <%= scope.lookupvar('denyhosts_block_service') %>
+WORK_DIR                              = <%= scope.lookupvar('denyhosts_work_dir') %>
+SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS = <%= scope.lookupvar('denyhosts_suspicious_login_report') %>
+LOCK_FILE                             = <%= scope.lookupvar('denyhosts_lock_file') %>
+SECURE_LOG                            = <%= scope.lookupvar('denyhosts_secure_log') %>
+DENY_THRESHOLD_INVALID                = <%= scope.lookupvar('denyhosts_threshold_invalid') %>
+DENY_THRESHOLD_VALID                  = <%= scope.lookupvar('denyhosts_threshold_valid') %>
+DENY_THRESHOLD_ROOT                   = <%= scope.lookupvar('denyhosts_threshold_root') %>
+DENY_THRESHOLD_RESTRICTED             = <%= scope.lookupvar('denyhosts_threshold_restricted') %>
+HOSTNAME_LOOKUP                       = <%= scope.lookupvar('denyhosts_hostname_lookup') %>
+SYSLOG_REPORT                         = <%= scope.lookupvar('denyhosts_syslog_report') %>
+AGE_RESET_VALID                       = <%= scope.lookupvar('denyhosts_age_reset_valid') %>
+AGE_RESET_ROOT                        = <%= scope.lookupvar('denyhosts_age_reset_root') %>
+AGE_RESET_INVALID                     = <%= scope.lookupvar('denyhosts_age_reset_invalid') %>
+RESET_ON_SUCCESS                      = <%= scope.lookupvar('denyhosts_reset_on_success') %>
+DAEMON_LOG                            = <%= scope.lookupvar('denyhosts_daemon_log') %>
+DAEMON_SLEEP                          = <%= scope.lookupvar('denyhosts_daemon_sleep') %>
+DAEMON_PURGE                          = <%= scope.lookupvar('denyhosts_daemon_purge') %>
+DAEMON_LOG                            = <%= scope.lookupvar('denyhosts_daemon_log') %>
+DAEMON_LOG_TIME_FORMAT                = <%= scope.lookupvar('denyhosts_daemon_log_time_format') %>
+DAEMON_LOG_MESSAGE_FORMAT             = <%= scope.lookupvar('denyhosts_daemon_log_mesage_format') %>
+PURGE_DENY                            = <%= scope.lookupvar('denyhosts_purge_deny') %>
+PURGE_THRESHOLD                       = <%= scope.lookupvar('denyhosts_purge_threshold') %>
+SYNC_SERVER                           = <%= scope.lookupvar('denyhosts_sync_server') %>
+SYNC_INTERVAL                         = <%= scope.lookupvar('denyhosts_sync_interval') %>
+SYNC_UPLOAD                           = <%= scope.lookupvar('denyhosts_sync_upload') %>
+SYNC_DOWNLOAD                         = <%= scope.lookupvar('denyhosts_sync_download') %>
+SYNC_DOWNLOAD_THRESHOLD               = <%= scope.lookupvar('denyhosts_sync_download_threshold') %>
+SYNC_DOWNLOAD_RESILIENCY              = <%= scope.lookupvar('denyhosts_sync_download_resiliency') %>
+
+

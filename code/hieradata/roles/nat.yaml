@@ -1,0 +1,99 @@
+---
+sysctl::base::purge: true
+sysctl::base::values:
+    net.ipv4.ip_forward:                    
+        value: '1' 
+    net.ipv4.conf.all.accept_redirects:     
+        value: '0' 
+    net.ipv4.conf.all.send_redirects:       
+        value: '0' 
+    net.ipv4.conf.default.send_redirects:   
+        value: '0' 
+    net.ipv4.conf.eth0.send_redirects:      
+        value: '0' 
+    net.ipv4.conf.default.accept_redirects: 
+        value: '0' 
+    net.ipv4.conf.eth0.accept_redirects:    
+        value: '0'
+
+vpn::config::forceencaps:           "yes"
+vpn::config::aggrmode:              "no"
+vpn::config::authby:                "rsasig"
+vpn::config::auto:                  "start"
+vpn::config::type:                  "tunnel"
+vpn::config::ike:                   "aes256-sha1;modp2048"
+vpn::config::phase2alg:             "aes256-sha1;modp2048"
+vpn::config::dpddelay:              "120"
+vpn::config::dpdtimeout:            "180"
+vpn::config::dpdaction:             "restart"
+vpn::config::name:                  "{::hostname_full}.conf"
+vpn::config::public:                "%{::public_ip}"
+vpn::config::subnet:                "%{::first_two_octets}.0.0/16"
+vpn::config::private:               "%{::ipaddress}"
+vpn::source::key:                   'source_key'
+vpn::dest::key:                     'dest_key'
+
+vpn::use1::service::origin::name:   "platform-nat-001.p.use1.local.com.conf"
+vpn::use1::service::origin::conn:   "app_platform-nat-001.p.use1"
+vpn::use1::service::origin::public: "1.1.1.1"
+vpn::use1::service::origin::subnet: "10.20.0.0/16"
+
+vpn::use1::db::origin::name:        "platform-nat-002.p.use1.local.com.conf"
+vpn::use1::db::origin::conn:        "app_platform-nat-002.p.use1"
+vpn::use1::db::origin::public:      "1.1.1.2"
+vpn::use1::db::origin::subnet:      "10.100.0.0/16"
+
+vpn::usw1::service::app::name:      "platform-nat-001.p.usw1.local.com.conf"
+vpn::usw1::service::app::conn:      "app_platform-nat-001.p.usw1"
+vpn::usw1::service::app::public:    "1.1.1.3"
+vpn::usw1::service::app::subnet:    "10.1.0.0/16"
+
+vpn::usw1::db::app::name:           "platform-nat-002.p.usw1.local.com.conf"
+vpn::usw1::db::app::conn:           "app_platform-nat-002.p.usw1"
+vpn::usw1::db::app::public:         "1.1.1.4"
+vpn::usw1::db::app::subnet:         "10.1.0.0/16"
+
+vpn::usw2::service::app::name:      "platform-nat-001.p.usw2.local.com.conf"
+vpn::usw2::service::app::conn:      "app_platform-nat-001.p.usw2"
+vpn::usw2::service::app::public:    "1.1.1.5"
+vpn::usw2::service::app::subnet:    "10.3.0.0/16"
+
+vpn::usw2::db::app::name:           "platform-nat-002.p.usw2.local.com.conf"
+vpn::usw2::db::app::conn:           "app_platform-nat-002.p.usw2"
+vpn::usw2::db::app::public:         "1.1.1.6"
+vpn::usw2::db::app::subnet:         "10.3.0.0/16"
+
+vpn::usw2::service::db::name:       "platform-nat-003.p.usw2.local.com.conf"
+vpn::usw2::service::db::conn:       "db_platform-nat-003.p.usw2"
+vpn::usw2::service::db::public:     "1.1.1.7"
+vpn::usw2::service::db::subnet:     "10.103.0.0/16"
+
+vpn::ase1::service::app::name:      "platform-nat-001.p.ase1.local.com.conf"
+vpn::ase1::service::app::conn:      "app_platform-nat-001.p.ase1"
+vpn::ase1::service::app::public:    "1.1.1.8"
+vpn::ase1::service::app::subnet:    "10.2.0.0/16"
+
+vpn::ase1::db::app::name:           "platform-nat-002.p.ase1.local.com.conf"
+vpn::ase1::db::app::conn:           "app_platform-nat-002.p.ase1"
+vpn::ase1::db::app::public:         "1.1.1.9"
+vpn::ase1::db::app::subnet:         "10.2.0.0/16"
+
+vpn::source::modulus:               '0xa46447f76a51fb5ac54edbef1ef8b723d813981896afb6f2b7933a0ad76d45ee55d0fdb3ab08a70f54f4243f18e37b5599a9670af556bdb1221ec025547d44950a22e1fabe0e00d5934eed72a8b32c27cd47ae833626f386f7fc55c9e3a83f54405bbc63a1eee37f7a55f4ed8af1e8effbeccbf9f8f61ed981115cc4db62c714a99344cb646380e8d6d9771ccc242b81bba151bf255932a67d0e40f795e8bf2caf53366d40d82c8ebec257c2bf2c5ebe731c8edcf830653517319aa22cae3ae979df58721e769ad451468085274c011cdb47e079a53e86d8e067b0fe98bdd649faed3f3a4b3f339818cc6372794d7ebdf01f8b728a2476ba7b2c9034a9bae179e6cc4044caaae0f8143252777db51a35ca95'
+vpn::source::public::exponent:      '0x03'
+vpn::source::private::exponent:     '0x64010f68ef85452617b53e5603abf6bb4d503399'
+vpn::source::prime1:                '0x64010f68ef85452617b53e5603abf6bb4d503399'
+vpn::source::prime2:                '0x64010f68ef85452617b53e5603abf6bb4d503399'
+vpn::source::exponent1:             '0x64010f68ef85452617b53e5603abf6bb4d503399'
+vpn::source::exponent2:             '0x64010f68ef85452617b53e5603abf6bb4d503399'
+vpn::source::coefficient:           '0x64010f68ef85452617b53e5603abf6bb4d503399'
+vpn::source::ckaidnss:              '0x64010f68ef85452617b53e5603abf6bb4d503399'
+
+vpn::dest::modulus:                 '0xc25593ddf66df3ccb286512a2432d55c3266e6f6521925036c3bc719264949257311972c75f71f79291980686e3a4b163f5ef77d0ef831d5f97f6175aa9d652dd2b0f6fa02b4ee2334ae88488ca76338acfac5e2fc5dd66369521f8c5fe2becd1ae02e3699af337e93b1a768af8b9a19d543138865de23047c68d24595517a3ab81ceb317aae565c036967b75e6490a2a6dd27741766890202097992b5d518d26a2ea28cd2eabea64fdc51809e49794b5711a311898ff0b0bd0fd4945762a645a4be46a8bf2a95366c6ea1b96d2c5ae4a76737e8c895bcf6f538f3d33bfb02fc049646bc8c524f15237e9c039eb6d7774f9d3430896dae66474afe6dc761021d86e2461e95d671554826cc320f133d8d28b1'
+vpn::dest::public::exponent:        '0x03'
+vpn::dest::private::exponent:       '0x6e292dc447f381311184b5732cbb0393820a84eb'
+vpn::dest::prime1:                  '0x6e292dc447f381311184b5732cbb0393820a84eb'
+vpn::dest::prime2:                  '0x6e292dc447f381311184b5732cbb0393820a84eb'
+vpn::dest::exponent1:               '0x6e292dc447f381311184b5732cbb0393820a84eb'
+vpn::dest::exponent2:               '0x6e292dc447f381311184b5732cbb0393820a84eb'
+vpn::dest::coefficient:             '0x6e292dc447f381311184b5732cbb0393820a84eb'
+vpn::dest::ckaidnss:                '0x6e292dc447f381311184b5732cbb0393820a84eb'

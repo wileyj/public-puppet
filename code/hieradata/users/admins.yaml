@@ -1,0 +1,51 @@
+---
+
+admin::groups:
+    admins:
+        ensure: present
+        gid: 25
+        members: [
+            'admin1'
+        ]
+
+admin::users:
+    admin1:
+        ensure:  present
+        home:    /home/admin1
+        shell:   /bin/bash
+        comment: "Admin 1"
+        uid:     901
+        gid:     25
+
+admin::keys:
+    /home/admin1:
+        ensure : directory
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0755'
+
+    /home/admin1/.ssh:
+        ensure: directory
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/admin1/.ssh/authorized_keys:
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0600'
+        replace: true
+        content: "ssh-rsa key"
+
+    /home/admin1/.subversion:
+        ensure : directory
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0700'
+
+    /home/admin1/.subversion/servers:
+        replace: true
+        owner  : 'admin1'
+        group  : 'admins'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = admin1"

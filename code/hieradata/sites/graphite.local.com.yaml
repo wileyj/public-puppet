@@ -1,0 +1,23 @@
+---
+# nginx::version:        1.7.10
+# php::version:          5.5.13
+# nginx::instance::name: site.com-1
+nginx::configs:
+    '/var/log/nginx/graphite.local.com':
+        ensure  : directory
+        replace : false
+        owner   : 'root'
+        group   : 'root'
+
+    '/etc/nginx/sites-available/graphite.local.com.conf':
+        source : 'puppet:///modules/nginx/etc/nginx/sites-available/graphite.local.com'
+        replace: true
+        owner  : root
+        group  : root
+        mode   : '0644'
+        #before : Service['nginx']
+        #notify : Service["nginx"]
+
+    '/etc/nginx/sites-enabled/graphite.local.com.conf':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/graphite.local.com.conf'

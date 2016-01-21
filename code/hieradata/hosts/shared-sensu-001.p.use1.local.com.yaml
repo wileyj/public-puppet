@@ -1,0 +1,37 @@
+---
+host::sudo::conf:
+    'sensu_commands' :
+        priority : 1
+        content  : "# sudo::sensu_commands - This file is maintained by puppet\nCmnd_Alias SENSU_COMMANDS = /etc/init.d/nginx, /etc/init.d/sensu-server, /etc/init.d/sensu-api, /sbin/service nginx, /sbin/service sensu-server, /sbin/service sensu-api\n"
+    'sensu' :
+        priority : 1
+        content  : "# sudo::sensu - This file is maintained by puppet\nsensu ALL = NOPASSWD:SENSU_COMMANDS\nDefaults !requiretty"
+    'jenkins' :
+        priority : 1
+        content  : "# sudo::jenkins - This file is maintained by puppet\njenkins ALL = NOPASSWD:SENSU_COMMANDS\n"
+
+host::files:
+    '/u/docroot/uchiwa.local.com':
+        ensure : directory
+        replace: false
+        owner:   nginx
+        group:   nginx
+        recurse: true
+
+    # '/var/log/nginx/uchiwa.local.com':
+    #     replace: false
+    #     recurse: false
+    #     owner  : 'root'
+    #     group  : 'root'
+    #     ensure : directory
+
+    '/etc/nginx/sites-available/uchiwa.local.com':
+        source : 'puppet:///modules/nginx/etc/nginx/sites-available/uchiwa.local.com'
+        replace: true
+        owner  : root
+        group  : root
+        mode   : '0644'
+
+    '/etc/nginx/sites-enabled/uchiwa.local.com':
+        ensure : 'link'
+        target : '/etc/nginx/sites-available/uchiwa.local.com'

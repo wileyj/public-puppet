@@ -1,0 +1,6 @@
+---
+puppet::env::modulepath:
+    - '$codedir/environments/dev/modules/public:'
+    - '$codedir/environments/dev/modules/local'
+puppet::env::manifest: '$codedir/environments/dev/manifests/site.pp'
+puppet::env::version: '/usr/bin/git --git-dir /etc/puppetlabs/.git rev-parse HEAD'

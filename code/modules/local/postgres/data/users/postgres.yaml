@@ -1,0 +1,17 @@
+---
+postgres::groups:
+    postgres:
+        ensure: present
+        gid:    26
+        members: [
+            'postgres'
+        ]
+
+postgres::users:
+    postgres:
+        ensure: present
+        home:   /var/lib/pgsql/9.4
+        shell:  /bin/bash
+        uid:    26
+        gid:    26
+

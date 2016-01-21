@@ -1,0 +1,18 @@
+{
+    "checks": {
+        "check_elb_health_usw2": {
+            "command": "/etc/sensu/plugins/check-elb-health-sdk.rb -r us-w-2",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 90,
+            "occurrences": 3,            
+            "handlers": [ 
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "aws"
+            ]
+        }
+    }
+}

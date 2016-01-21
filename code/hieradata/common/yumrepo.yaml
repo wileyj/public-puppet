@@ -1,0 +1,37 @@
+---
+yumrepos::hiera_hash: true
+yumrepos::purge: false 
+yumrepos::repos:
+    'epel':
+        descr          : epel
+        mirrorlist     : 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
+        failovermethod : priority
+        enabled        : 0
+        gpgkey         : 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6'
+        gpgcheck       : 1
+        priority       : 2
+
+    'epel-source':
+        descr          : epel-source
+        mirrorlist     : 'https://mirrors.fedoraproject.org/metalink?repo=epel-source-6&arch=$basearch'
+        failovermethod : priority
+        enabled        : 0
+        gpgkey         : file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+        gpgcheck       : 1
+        priority       : 2
+
+    'local_noarch':
+        descr          : local_noarch
+        baseurl        : 'http://s3.amazonaws.com/local-yumrepo/noarch'
+        failovermethod : priority
+        # exclude        : 'perl-ExtUtils-MakeMaker* perl-TermReadKey* db4* perl-threads*  perl-Pod* perl-File-Temp* perl-Digest-MD5* libffi* libyaml*'
+        gpgcheck       : 0
+        priority       : 1
+
+    'local_x86_64':
+        descr          : local_x86-64
+        baseurl        : 'http://s3.amazonaws.com/local-yumrepo/x86_64'
+        failovermethod : priority
+        # exclude        : 'perl-ExtUtils-MakeMaker* perl-TermReadKey* db4* perl-threads*  perl-Pod* perl-File-Temp* perl-Digest-MD5* libffi* libyaml*'
+        gpgcheck       : 0
+        priority       : 1

@@ -1,0 +1,42 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    treydock-gpg_key (0.0.3)
+
+GIT
+  remote: git://github.com/puppet-community/puppet-nodejs.git
+  ref: master
+  sha: 240817d3f57256b387c9adc2cfdda586353db52b
+  specs:
+    puppet-nodejs (1.2.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.1.0)
+      treydock-gpg_key (< 1.0.0, >= 0.0.3)
+
+GIT
+  remote: git://github.com/puppetlabs/puppetlabs-apt.git
+  ref: master
+  sha: 3df188f879d35836ec0c14298c5dbec06179dd18
+  specs:
+    puppetlabs-apt (2.1.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
+
+GIT
+  remote: git://github.com/puppetlabs/puppetlabs-stdlib.git
+  ref: master
+  sha: 1d89df906e1ae1d09a862974181663caaf8012c6
+  specs:
+    puppetlabs-stdlib (4.8.0)
+
+GIT
+  remote: git://github.com/stahnma/puppet-module-epel.git
+  ref: master
+  sha: 370922ee1e4522524c9d00f099c1882a00938b30
+  specs:
+    stahnma-epel (1.1.0)
+
+DEPENDENCIES
+  puppet-nodejs (>= 0)
+  puppetlabs-apt (>= 0)
+  puppetlabs-stdlib (>= 0)
+  stahnma-epel (>= 0)
+

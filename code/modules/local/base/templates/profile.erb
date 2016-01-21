@@ -1,0 +1,72 @@
+# Managed by puppet - do not modify!
+
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+  . ~/.bashrc
+fi
+alias fuck='eval $(thefuck $(fc -ln -1)); history -r'
+alias vim='/bin/vi'
+
+# User specific environment and startup programs
+unset USERNAME
+
+export GOPATH="<%= scope.lookupvar('gopath') %>"
+export FACTERLIB="<%= scope.lookupvar('facterlib') %>"
+export PATH="<%= scope.lookupvar('path') %>"
+
+alias ll='ls $LS_OPTIONS -l'
+alias lh='ls $LS_OPTIONS -lh'
+alias l='ls $LS_OPTIONS -lA'
+
+up(){
+  local d=""
+  limit=$1
+  for ((i=1 ; i <= limit ; i++))
+    do
+      d=$d/..
+    done
+  d=$(echo $d | sed 's/^\///')
+  if [ -z "$d" ]; then
+    d=..
+  fi
+  cd $d
+}
+
+export EDITOR=/bin/vi
+export BLOCKSIZE=1k
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
+
+lsnet(){ 
+        lsof -i  | awk '{printf("%-14s%-20s%s\n", $10, $1, $9)}' | sort 
+}
+
+rn(){
+  ps ax | grep -i "${1}" | awk ' \
+  $0 !~ /grep/ { count++; pids[count] = $1} \
+  END { \
+    for( idx in pids ) print " +5", pids[idx]; \
+  }' | xargs renice -n 
+}
+
+cat /etc/motd
+echo "Uptime: " $(uptime | sed "s/up \([0-9a-zA-Z: ]*\),/up ${tBlue}${tBold}\1${tReset},/")
+echo ""
+
+
+# prompt functions
+default(){
+  export PS1="\e[01;32m[\!] \[\e[00m\][\u@\h \W]\\$ "
+}
+short(){
+  export PS1="\[\033[0;33m\][\!] \[\e[00m\]$ "
+}
+shortalt(){
+  export PS1="\[\033[0;33m\][\!] \[\033[0;32m\][\t] $ \[\e[00m\] "
+}
+hist(){
+  export PS1="[\!] [\t] [\u@\H]$ "
+}
+default

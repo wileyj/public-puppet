@@ -1,0 +1,4 @@
+---
+profiles::uchiwa::classes:
+    - "::uchiwa"
+

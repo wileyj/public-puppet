@@ -1,0 +1,51 @@
+---
+# classes:
+#     - "roles::%{::server_role}"
+
+nodejs::packages:
+    - nodejs
+    - nodejs-devel
+    - nodejs-binary
+    - nodejs-npm
+    # - nodejs-archiver
+    # - nodejs-atob
+    # - nodejs-btoa
+    # - nodejs-chalk
+    # - nodejs-github
+    # - nodejs-googleapis
+    # - nodejs-nodemailer
+    # - nodejs-redis
+    # - nodejs-restify
+    # - nodejs-temp
+    # - nodejs-winston
+
+nodejs::modules:
+    - archiver
+    - atob
+    - btoa
+    - chalk
+    - github
+    - googleapis
+    - nodemailer
+    - redis
+    - restify
+    - temp
+    - winston
+
+nodejs::files:
+    '/opt/nodejs':
+        ensure : directory
+        owner  : 'root' 
+        group  : 'root'
+        replace: false 
+        recurse: false
+
+    '/opt/nodejs/0.12':
+        ensure : directory
+        owner  : 'root' 
+        group  : 'root'
+        replace: false 
+        recurse: false
+
+# nodejs::services:
+#     - nodejs

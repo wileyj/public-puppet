@@ -1,0 +1,5 @@
+---
+profiles::nat::classes:
+    - "::firewall"
+    - "::vpn"
+    - "::nat"

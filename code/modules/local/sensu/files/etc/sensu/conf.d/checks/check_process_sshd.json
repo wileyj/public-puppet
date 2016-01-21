@@ -1,0 +1,37 @@
+{
+    "checks": {
+        "process_sshd": {
+            "command": "/etc/sensu/plugins/check-process.pl -c status -p sshd",
+            "wiki": "http://wiki.something/for/check/failure",
+            "interval": 60,
+            "occurrences": 5,
+            "handlers": [ 
+                "default",
+                "slack",
+                "mailer"
+            ],
+            "subscribers": [
+                "default"
+            ],
+            "remediation": {
+                "remediation_sshd": {
+                    "occurrences": [
+                        "1-5"
+                    ],
+                    "severities": [
+                        2
+                    ]
+                }
+            }
+        },
+        "remediation_denyhosts": {
+            "command": "sudo /etc/init.d/sshd restart",
+            "subscribers": [],
+            "handlers": [
+                "mailer"
+            ],
+            "publish": false
+        }
+    }
+}
+

@@ -1,0 +1,13 @@
+---
+nginx::groups:
+    nginx:
+        ensure: present
+        gid: 495
+
+nginx::users:
+    nginx:
+        ensure: present
+        home: /etc/nginx
+        shell: /sbin/nologin
+        uid: 495
+        gid: 495

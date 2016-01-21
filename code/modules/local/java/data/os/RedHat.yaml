@@ -1,0 +1,9 @@
+---
+java::packages:
+    - jdk
+
+java::files:
+    '/usr/bin/java':
+        ensure: link
+        target: /usr/java/current/bin/java
+

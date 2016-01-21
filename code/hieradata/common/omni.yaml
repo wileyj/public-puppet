@@ -1,0 +1,129 @@
+---
+ssh::packages:
+    - openssh-clients
+    - openssh-server
+    - openssh
+
+ssh::services:
+    - sshd
+
+puppet::common::codedir:      /etc/puppetlabs/code
+puppet::common::confdir:      $codedir/hieradata
+puppet::common::hiera_config: $codedir/hiera.yaml
+puppet::common::env_path:     $codedir/environments
+puppet::common::environment:  'production'
+puppet::common::fact_path:    $codedir/modules/facts/lib/facter/
+puppet::common::var_dir:      /var/lib/puppet
+puppet::common::log_dir:      /var/log/puppet
+puppet::common::run_dir:      /var/run/puppet
+puppet::common::listen:       false
+puppet::common::summarize:    true
+puppet::common::param_check:  true
+puppet::common::report:       false
+puppet::common::pluginsync:   false
+puppet::common::log_level:    info
+#puppet::common::parser:       future
+puppet::common::modulepath:   
+    - '$codedir/environments/production/modules/public:'
+    - '$codedir/environments/production/modules/local'
+
+ntp::servers:
+    - 0.amazon.pool.ntp.org
+    - 1.amazon.pool.ntp.org
+    - 2.amazon.pool.ntp.org
+    - 3.amazon.pool.ntp.org
+sudo::config_file_replace: true
+sudo::purge: true
+#collectd::services: "collectd"
+collectd::config::graphiteprefix: "collectd-"
+collectd::config::escapecharacter: "-"
+collectd::config::storerates: true
+collectd::config::alwaysappendds: false
+collectd::config::separateinstances: false
+collectd::config::logsenderrors: true
+collectd::config::protocol: "tcp"
+denyhosts::hosts_deny:                 /etc/hosts.deny
+denyhosts::block_service:              all
+denyhosts::work_dir:                   /opt/denyhosts/data
+denyhosts::suspicious_login_report:    NO
+denyhosts::lock_file:                  /var/lock/subsys/denyhosts
+denyhosts::secure_log:                 /var/log/messages
+denyhosts::deny_threshold::invalid:    5
+denyhosts::deny_threshold::valid:      5
+denyhosts::deny_threshold::root:       1
+denyhosts::deny_threshold::restricted: 1
+denyhosts::hostname_lookup:            YES
+denyhosts::syslog_report:              false
+denyhosts::age_reset_valid:            2d
+denyhosts::age_reset_root:             5y
+denyhosts::age_reset_invalid:          10d
+denyhosts::reset_on_success:           true
+denyhosts::reset_valid:                2d
+denyhosts::daemon::log:                /var/log/denyhosts
+denyhosts::daemon::sleep:              30s
+denyhosts::daemon::purge:              1h
+denyhosts::daemon::log:                /var/log/denyhosts
+denyhosts::daemon::log_time_format:    "%b %d %I:%M:%S"
+denyhosts::daemon::log_message_format: "%(asctime)s -  %(name)-12s: %(levelname)-8s %(message)s"
+denyhosts::sync::server:               http://xmlrpc.denyhosts.net:9911
+denyhosts::sync::interval:             1h
+denyhosts::sync::upload:               no
+denyhosts::sync::download:             yes
+denyhosts::sync::download_threshold:   10
+denyhosts::sync::download_resiliency:  2d
+denyhosts::purge::deny:                5y
+denyhosts::purge::threshold:           0
+statsd::config::port: 8125
+statsd::config::mgmt_port: 8126
+statsd::config::debug: "false"
+statsd::config::statsd_title: "statsd"
+statsd::config::healthStatus: "up"
+statsd::config::dumpMessages: "false"
+statsd::config::flushInterval: 1000
+statsd::config::percentThreshold:
+    - 5
+    - 90
+    - 95
+    - 99
+statsd::config::flush_counts: "true"
+statsd::config::graphite::legacyNamespace: "false"
+statsd::config::graphite::globalPrefix: "statsd-%{::fqdn}"
+statsd::config::graphite::prefixCounter: "counters"
+statsd::config::graphite::prefixGauge: "gauges"
+statsd::config::graphite::prefixSet: "sets"
+yumrepos::hiera_hash: true
+yumrepos::purge: false 
+yumrepos::repos:
+    'epel':
+        descr          : epel
+        mirrorlist     : 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
+        failovermethod : priority
+        enabled        : 0
+        gpgkey         : 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6'
+        gpgcheck       : 1
+        priority       : 2
+
+    'epel-source':
+        descr          : epel-source
+        mirrorlist     : 'https://mirrors.fedoraproject.org/metalink?repo=epel-source-6&arch=$basearch'
+        failovermethod : priority
+        enabled        : 0
+        gpgkey         : file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+        gpgcheck       : 1
+        priority       : 2
+
+    'local_noarch':
+        descr          : local_noarch
+        baseurl        : 'http://s3.amazonaws.com/local-yumrepo/noarch'
+        failovermethod : priority
+        # exclude        : 'perl-ExtUtils-MakeMaker* perl-TermReadKey* db4* perl-threads*  perl-Pod* perl-File-Temp* perl-Digest-MD5* libffi* libyaml*'
+        gpgcheck       : 0
+        priority       : 1
+
+    'local_x86_64':
+        descr          : local_x86-64
+        baseurl        : 'http://s3.amazonaws.com/local-yumrepo/x86_64'
+        failovermethod : priority
+        # exclude        : 'perl-ExtUtils-MakeMaker* perl-TermReadKey* db4* perl-threads*  perl-Pod* perl-File-Temp* perl-Digest-MD5* libffi* libyaml*'
+        gpgcheck       : 0
+        priority       : 1

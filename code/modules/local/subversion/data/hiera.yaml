@@ -1,0 +1,4 @@
+:hierarchy:
+    - "os/%{::osfamily}"
+    - "users/%{server_role}"
+    - "common"

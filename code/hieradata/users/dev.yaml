@@ -1,0 +1,51 @@
+---
+dev::groups:
+    devs:
+        ensure: present
+        gid: 1010
+        members: [
+            'user2'
+        ]
+
+dev::users:
+    user2:
+        ensure:  present
+        home:    /home/user2
+        shell:   /bin/bash
+        comment: "Tommy Leung"
+        uid:     1010
+        gid:     1010
+
+
+dev::keys:
+    /home/user2:
+        ensure : directory
+        owner : 'user2'
+        group : 'devs'
+        mode : '0755'
+
+    /home/user2/.ssh:
+        ensure: directory
+        owner  : 'user2'
+        group  : 'devs'
+        mode   : '0700'
+
+    /home/user2/.subversion:
+        ensure : directory
+        owner  : 'user2'
+        group  : 'devs'
+        mode   : '0700'
+
+    /home/user2/.ssh/authorized_keys:
+        owner  : 'user2'
+        group  : 'devs'
+        mode   : '0600'
+        replace: true
+        content: "ssh-rsa user2"
+
+    /home/user2/.subversion/servers:
+        replace: true
+        owner  : 'tommy'
+        group  : 'devs'
+        mode   : '0600'
+        content: "[groups]\nlocal = svn.local.com\n\n[local]\nhttp-timeout = 60\nhttp-compression = yes\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp = no\nstore-ssl-client-cert-pp-plaintext = no\nstore-auth-creds = no\nusername = user1"
