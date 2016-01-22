@@ -82,9 +82,3 @@
 [submodule "code/modules/public/stmod"]
 	path = code/modules/public/stmod
 	url = https://github.com/stdmod/stdmod.git
-[submodule "code/modules/publgit"]
-	path = code/modules/publgit
-	url = https://github.com/puppetlabs/puppetlabs-limits.git
-[submodule "code/modules/pgit"]
-	path = code/modules/pgit
-	url = https://github.com/maestrodev/puppet-wget.git
