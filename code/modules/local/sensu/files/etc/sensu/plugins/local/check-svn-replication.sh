@@ -22,6 +22,8 @@ GREP=/bin/grep
 CUT=/usr/bin/cut
 MASTER_SVN=$1
 SLAVE_SVN=$2
+USER="user"
+PASSWORD="password"
 #SLACK=2
 SLACK=5 # allow a bit of leeway so as to reduce false positives
 SLAVE_ERROR=
@@ -31,49 +33,41 @@ SLAVE_ERROR=
 HOME=/root
 
 # need master & slave svn
-if [ $# -gt 1 ]
-then
+if [ $# -gt 1 ]; then
 	# make sure we're running on the slave.  the slave will have the pull script
-	if [ -f /usr/local/bin/sync_pull_script.sh ]
-	then
+	if [ -f /usr/local/bin/sync_pull_script.sh ]; then
 		# REPO list from sync pull script
-		for REPO in `cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | head -n 1 | cut -f 2 -d '"'`
-		do
-    			# get the revision of the master repo
-			MASTER_REV=`$SVN --username sysmgr --password p3+$+0r3 info $MASTER_SVN/$REPO | grep -i ^revision | cut -f2 -d ' '`
+		for REPO in `cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | head -n 1 | cut -f 2 -d '"'`; do
+			# get the revision of the master repo
+			MASTER_REV=`$SVN --username $USER --password $PASSWORD info $MASTER_SVN/$REPO | grep -i ^revision | cut -f2 -d ' '`
 			# get the revision of the slave repo
-			SLAVE_REV=`$SVN --username sysmgr --password p3+$+0r3 info $SLAVE_SVN/$REPO | grep -i ^revision | cut -f2 -d ' ' | sed -e 's/[^0-9]//'`
+			SLAVE_REV=`$SVN --username $USER --password $PASSWORD info $SLAVE_SVN/$REPO | grep -i ^revision | cut -f2 -d ' ' | sed -e 's/[^0-9]//'`
 			# check if the revisions are not equal
-			if [ -n $SLAVE_REV ] && [ `expr $SLAVE_REV + $SLACK` -le "$MASTER_REV" ]
-			then
+			if [ -n $SLAVE_REV ] && [ `expr $SLAVE_REV + $SLACK` -le "$MASTER_REV" ]; then
 				echo "CRITICAL $REPO $SLAVE_ERROR out of sync with $MASTER_SVN (rev: $MASTER_REV)"
 				exit 2
 			fi
 		done
 		# REPO list from sync pull script -- neopets special repos edition
-		for REPO in `cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | tail -n 2 | head -n 1 | cut -f 2 -d '"'`
-		do
-    			# get the revision of the master repo
-			MASTER_REV=`$SVN --username sysmgr --password p3+$+0r3 info $MASTER_SVN/neopets/$REPO | grep -i ^revision | cut -f2 -d ' '`
+		for REPO in `cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | tail -n 2 | head -n 1 | cut -f 2 -d '"'`; do
+			# get the revision of the master repo
+			MASTER_REV=`$SVN --username $USER --password $PASSWORD info $MASTER_SVN/neopets/$REPO | grep -i ^revision | cut -f2 -d ' '`
 			# get the revision of the slave repo
-			SLAVE_REV=`$SVN --username sysmgr --password p3+$+0r3 info $SLAVE_SVN/neopets/$REPO | grep -i ^revision | cut -f2 -d ' ' | sed -e 's/[^0-9]//'`
+			SLAVE_REV=`$SVN --username $USER --password $PASSWORD info $SLAVE_SVN/neopets/$REPO | grep -i ^revision | cut -f2 -d ' ' | sed -e 's/[^0-9]//'`
 			# check if the revisions are not equal
-			if [ -n $SLAVE_REV ] && [ `expr $SLAVE_REV + $SLACK` -le "$MASTER_REV" ]
-			then
+			if [ -n $SLAVE_REV ] && [ `expr $SLAVE_REV + $SLACK` -le "$MASTER_REV" ]; then
 				echo "CRITICAL $REPO $SLAVE_ERROR out of sync with $MASTER_SVN (rev: $MASTER_REV)"
 				exit 2
 			fi
 		done
 		# REPO list from sync pull script -- swag special repos edition
-		for REPO in `cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | tail -n 1 | cut -f 2 -d '"'`
-		do
-    			# get the revision of the master repo
-			MASTER_REV=`$SVN --username sysmgr --password p3+$+0r3 info $MASTER_SVN/swag/$REPO | grep -i ^revision | cut -f2 -d ' '`
+		for REPO in `cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | tail -n 1 | cut -f 2 -d '"'`; do
+			# get the revision of the master repo
+			MASTER_REV=`$SVN --username $USER --password $PASSWORD info $MASTER_SVN/swag/$REPO | grep -i ^revision | cut -f2 -d ' '`
 			# get the revision of the slave repo
-			SLAVE_REV=`$SVN --username sysmgr --password p3+$+0r3 info $SLAVE_SVN/swag/$REPO | grep -i ^revision | cut -f2 -d ' ' | sed -e 's/[^0-9]//'`
+			SLAVE_REV=`$SVN --username $USER --password $PASSWORD info $SLAVE_SVN/swag/$REPO | grep -i ^revision | cut -f2 -d ' ' | sed -e 's/[^0-9]//'`
 			# check if the revisions are not equal
-			if [ -n $SLAVE_REV ] && [ `expr $SLAVE_REV + $SLACK` -le "$MASTER_REV" ]
-			then
+			if [ -n $SLAVE_REV ] && [ `expr $SLAVE_REV + $SLACK` -le "$MASTER_REV" ]; then
 				echo "CRITICAL $REPO $SLAVE_ERROR out of sync with $MASTER_SVN (rev: $MASTER_REV)"
 				exit 2
 			fi
@@ -83,9 +77,8 @@ then
 		exit 3
 	fi
 else
-    echo "UNKNOWN Wrong usage. Use: $0 \$MASTER_SVN \$SLAVE_SVN"
-    exit 3
+	echo "UNKNOWN Wrong usage. Use: $0 \$MASTER_SVN \$SLAVE_SVN"
+	exit 3
 fi
-
 echo "OK SVN servers $* are in sync (`cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | head -n 1 | cut -f 2 -d '"'` `cat /usr/local/bin/sync_pull_script.sh | grep "export REPOS" | tail -n 1 | cut -f 2 -d '"'`)"
 exit 0
