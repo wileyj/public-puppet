@@ -1,6 +1,5 @@
 ---
 # graphite login:
-# admin:9t3?NZt^GNs8rm
 # python /opt/graphite/webapp/graphite/manage.py createsuperuser
 # ...
 
