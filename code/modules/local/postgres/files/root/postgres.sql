@@ -1,6 +1,6 @@
 
 /* psql93 -d template1 -U postgres -f postgres.sql -W */
-create role admin with Superuser CreateRole CreateDB Replication LOGIN ENCRYPTED PASSWORD 'password'; 
+create role admin with Superuser CreateRole CreateDB Replication LOGIN ENCRYPTED PASSWORD 'password';
 create role local_ro with LOGIN ENCRYPTED PASSWORD 'password1';
 create role local_rw with LOGIN ENCRYPTED PASSWORD 'password2';
 create role app_ro with LOGIN ENCRYPTED PASSWORD 'password3';
@@ -14,7 +14,7 @@ grant all on database local to admin;
 grant CONNECT, TEMP on database local to app_rw;
 grant CONNECT, TEMP on database local to app_ro;
 
-\connect local 
+\connect local
 
 create schema app_dev authorization app_rw;
 create schema app_qa authorization app_rw;
@@ -27,6 +27,8 @@ email text,
 name text,
 comment text
 );
+
+select name from app_dev.users where app_qa.names is like x;
 
 CREATE TYPE app_qa.type AS ENUM ('val1', 'val2', 'val3');
 create table app_qa.names (
